@@ -1,2 +1,2 @@
 # JavaBE_WatchShop
-Dự án web bán đồng hồ trên nền tảng Java BE bằng Spring Boot
+Dự án website bán đồng hồ Java Backend sử dụng Spring Boot
