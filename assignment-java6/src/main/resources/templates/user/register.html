@@ -1,0 +1,123 @@
+<th:block th:include="user/fragments/header"></th:block>
+
+<main>
+	<!-- Hero Area Start-->
+	<div class="slider-area ">
+		<div class="single-slider slider-height2 d-flex align-items-center">
+			<div class="container">
+				<div class="row">
+					<div class="col-xl-12">
+						<div class="hero-cap text-center">
+							<h2>Register</h2>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Hero Area End-->
+	<!--================login_part Area =================-->
+	<section class="login_part section_padding" id="register_part">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-lg-6 col-md-6">
+					<div class="login_part_text text-center">
+						<div class="login_part_text_iner">
+							<h2>Already have an account?</h2>
+							<p>There are advances being made in science and technology
+								everyday, and a good example of this is the</p>
+							<a th:href="@{login}" class="btn_3">Login</a>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6 col-md-6">
+					<div class="login_part_form">
+						<div class="login_part_form_iner">
+							<h3>
+								Hello ! <br> Join us now
+							</h3>
+							<form class="row contact_form" th:action="@{/register}"
+								name="myForm" th:onsubmit="return validateForm()" method="post"
+								novalidate="novalidate" th:object="${userRequest}">
+								<div class="col-md-12 form-group p_star">
+									<input type="text" class="form-control" id="name" name="name"
+										value="" placeholder="Username" th:field="*{username}">
+									<p style="color: #ff3333" id="error_name"></p>
+								</div>
+								<div class="col-md-12 form-group p_star">
+									<input type="password" class="form-control" id="password"
+										name="password" value="" placeholder="Password"
+										th:field="*{hashPassword}">
+									<p style="color: #ff3333" id="error_password"></p>
+								</div>
+								<div class="col-md-12 form-group p_star">
+									<input type="fullname" class="form-control" id="fullname"
+										name="fullname" value="" placeholder="Fullname"
+										th:field="*{fullname}">
+									<p style="color: #ff3333" id="error_fullname"></p>
+								</div>
+								<div class="col-md-12 form-group p_star">
+									<input type="email" class="form-control" id="email"
+										name="email" value="" placeholder="Email" th:field="*{email}">
+									<p style="color: #ff3333" id="error_email"></p>
+								</div>
+								<div class="col-md-12 form-group">
+									<button type="submit" value="submit" class="btn_3">
+										register</button>
+									<a class="lost_pass" th:href="@{forgot-password}">forget
+										password?</a>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!--================login_part end =================-->
+</main>
+
+<script>
+	function validateForm() {
+		let x = document.forms["myForm"]["name"].value;
+		let check = true;
+		if (x == "") {
+			$('#error_name').text('Please enter username');
+			check = false;
+		} else {
+			$('#error_name').text('');
+		}
+		let y = document.forms["myForm"]["password"].value;
+		if (y == "") {
+			$('#error_password').text('Please enter password');
+			check = false;
+		} else {
+			$('#error_password').text('');
+		}
+		let z = document.forms["myForm"]["fullname"].value;
+		if (x == "") {
+			$('#error_fullname').text('Please enter fullname');
+			check = false;
+		} else {
+			$('#error_fullname').text('');
+		}
+		let w = document.forms["myForm"]["email"].value;
+		if (y == "") {
+			$('#error_email').text('Please enter email');
+			check = false;
+		} else {
+			$('#error_email').text('');
+		}
+
+		return check;
+	}
+
+	function loadPage() {
+		$('html, body').animate({
+			scrollTop : $("#register_part").offset().top + (-100)
+		}, 1000);
+	}
+	window.onload = loadPage;
+</script>
+
+<th:block th:include="user/fragments/footer"></th:block>

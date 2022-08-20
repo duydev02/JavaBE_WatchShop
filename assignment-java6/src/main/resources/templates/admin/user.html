@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>User</title>
+	
+	<!-- Favicon -->
+	<link rel="icon" th:href="@{/admin/dist/img/AdminLTELogo.png}" type="image/x-icon">
+	
+	<!-- Google Font: Source Sans Pro -->
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+	<!-- Font Awesome -->
+	<link rel="stylesheet"
+		th:href="@{/admin/plugins/fontawesome-free/css/all.min.css}">
+	<!-- Ionicons -->
+	<link rel="stylesheet"
+		href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+	<!-- Tempusdominus Bootstrap 4 -->
+	<link rel="stylesheet"
+		th:href="@{/admin/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css}">
+	<!-- iCheck -->
+	<link rel="stylesheet"
+		th:href="@{/admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css}">
+	<!-- JQVMap -->
+	<link rel="stylesheet" th:href="@{/admin/plugins/jqvmap/jqvmap.min.css}">
+	<!-- Theme style -->
+	<link rel="stylesheet" th:href="@{/admin/dist/css/adminlte.min.css}">
+	<!-- overlayScrollbars -->
+	<link rel="stylesheet"
+		th:href="@{/admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">
+	<!-- Daterange picker -->
+	<link rel="stylesheet"
+		th:href="@{/admin/plugins/daterangepicker/daterangepicker.css}">
+	<!-- summernote -->
+	<link rel="stylesheet"
+		th:href="@{/admin/plugins/summernote/summernote-bs4.min.css}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+	<div class="wrapper">
+
+		<!-- Preloader -->
+		<div
+			class="preloader flex-column justify-content-center align-items-center">
+			<img class="animation__shake" src="dist/img/AdminLTELogo.png"
+				alt="AdminLTELogo" height="60" width="60">
+		</div>
+
+		<!-- Main Sidebar Container -->
+		<aside class="main-sidebar sidebar-dark-primary elevation-4">
+			<!-- Brand Logo -->
+			<a th:href="@{/admin}" class="brand-link"> <img
+				th:src="@{/admin/dist/img/AdminLTELogo.png}" alt="AdminLTE Logo"
+				class="brand-image img-circle elevation-3" style="opacity: .8">
+				<span class="brand-text font-weight-light">AdminLTE 3</span>
+			</a>
+
+			<!-- Sidebar -->
+			<div class="sidebar">
+				<!-- Sidebar user panel (optional) -->
+				<div class="user-panel mt-3 pb-3 mb-3 d-flex" th:if="${session.currentUser != null}">
+                    <div class="image">
+                        <img th:src="@{'/user/assets/img/avatar/' + ${session.currentUser.imgUrl}}" class="img-circle elevation-2"
+                            alt="User Image">
+                    </div>
+                    <div class="info">
+                        <a href="#" class="d-block" th:text="${session.currentUser.username}"></a>
+                    </div>
+                </div>
+
+				<!-- SidebarSearch Form -->
+				<div class="form-inline">
+					<div class="input-group" data-widget="sidebar-search">
+						<input class="form-control form-control-sidebar" type="search"
+							placeholder="Search" aria-label="Search">
+						<div class="input-group-append">
+							<button class="btn btn-sidebar">
+								<i class="fas fa-search fa-fw"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+
+				<!-- Sidebar Menu -->
+				<nav class="mt-2">
+					<ul class="nav nav-pills nav-sidebar flex-column"
+						data-widget="treeview" role="menu" data-accordion="false">
+						<!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+						<li class="nav-item"><a th:href="@{/admin}" class="nav-link">
+								<i class="nav-icon fas fa-th"></i>
+								<p>Home</p>
+						</a></li>
+						<li class="nav-item"><a th:href="@{/admin/user}"
+							class="nav-link active"> <i class="nav-icon fas fa-copy"></i>
+								<p>Users</p>
+						</a></li>
+						<li class="nav-item"><a href="#" class="nav-link"> <i
+								class="nav-icon fas fa-chart-pie"></i>
+								<p>
+									Products <i class="right fas fa-angle-left"></i>
+								</p>
+						</a>
+							<ul class="nav nav-treeview">
+								<li class="nav-item"><a th:href="@{/admin/product}"
+									class="nav-link"> <i class="far fa-circle nav-icon"></i>
+										<p>Overview</p>
+								</a></li>
+								<li class="nav-item"><a href="pages/charts/flot.html"
+									class="nav-link"> <i class="far fa-circle nav-icon"></i>
+										<p>Create new product</p>
+								</a></li>
+							</ul></li>
+						<li class="nav-item"><a href="#" class="nav-link"> <i
+								class="nav-icon fas fa-tree"></i>
+								<p>
+									Orders <i class="fas fa-angle-left right"></i>
+								</p>
+						</a>
+							<ul class="nav nav-treeview">
+								<li class="nav-item"><a href="pages/UI/general.html"
+									class="nav-link"> <i class="far fa-circle nav-icon"></i>
+										<p>Overview</p>
+								</a></li>
+							</ul></li>
+					</ul>
+				</nav>
+				<!-- /.sidebar-menu -->
+			</div>
+			<!-- /.sidebar -->
+		</aside>
+		
+		<div id="divThongBao">
+	    	<div id="thongBao" style="display: none;" role="alert" align="center">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<span id="errorMessage" th:text="${errorMessage}"></span>
+				<span id="succeedMessage" th:text="${succeedMessage}"></span>
+			</div>
+	    </div>
+
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1>Quản lý người dùng</h1>
+						</div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item"><a th:href="@{/admin/}">Home</a></li>
+								<li class="breadcrumb-item active">User</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</section>
+			
+			<!-- Main content -->
+			<section class="content">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12">
+							<div class="card">
+								<div class="card-header">
+									<h3 class="card-title">Danh sách người dùng</h3>
+									<button style="float: right" id="createBtn" type="button" class="btn btn-success">Create new user</button>
+								</div>
+								<!-- /.card-header -->
+								<div class="card-body">
+									<table id="example1" class="table table-bordered table-striped">
+										<thead>
+											<tr>
+												<th></th>
+												<th>Username</th>
+												<th>Fullname</th>
+												<th>Email</th>
+												<th style="width: 80px;">Avatar</th>
+												<th>Role</th>
+												<th>Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="user, index : ${users}">
+												<td th:text="${index.index + 1}"></td>
+												<td th:text="${user.username}"></td>
+												<td th:text="${user.fullname}"></td>
+												<td th:text="${user.email}"></td>
+												<td>
+													<img th:src="@{'/getuserimage/' + ${user.imgUrl == null ? 'default.png' : user.imgUrl}}" class="elevation-2"
+                           								alt="User Image" style="width: 50px; height: 50px">
+												</td>
+												<td th:text="${user.role.description}"></td>
+												<td align="center">
+													<button class="btn btn-success" 
+														th:attr="onclick='editUser(\'' + ${user.username} + '\')'">
+														<i class="fa fa-edit" aria-hidden="true"></i>
+													</button>
+													<a class="btn btn-danger" 
+														th:href="@{'/admin/user/delete?username=' + ${user.username}}">
+														<i class="fa fa-trash" aria-hidden="true"></i>
+													</a>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<!-- /.card-body -->
+							</div>
+							<!-- /.card -->
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+					
+					
+					<div class="row">
+			          <!-- left column -->
+			          <div class="col-12">
+			            <!-- general form elements -->
+			            <div class="card card-primary">
+			              <div class="card-header">
+			                <h3 class="card-title">User Details</h3>
+			              </div>
+			              <!-- /.card-header -->
+			              <!-- form start -->
+			              <form id="form" method="POST" th:object="${userRequest}" enctype="multipart/form-data">
+			                <div class="card-body">
+			                	<div class="row">
+				                   <div class="col-8">
+					                  <div class="form-group">
+					                    <label for="username">Username</label>
+					                    <input type="text" 
+					                    		class="form-control" id="username" readonly="true" 
+					                    		th:field="*{username}">
+					                  </div>
+					                  <div class="form-group">
+					                    <label for="email">Email</label>
+					                    <input type="email" 
+					                    		class="form-control" id="email" readonly="true" 
+					                    		th:field="*{email}">
+					                  </div>
+					                  <div class="form-group">
+					                    <label for="password">Password</label>
+					                    <input type="password" class="form-control" 
+					                    		id="password" readonly="true" 
+					                    		th:field="*{hashPassword}">
+					                  </div>
+					                  <div class="form-group">
+					                    <label for="confirmPass">Confirm password</label>
+					                    <input type="password" class="form-control" 
+					                    		id="confirmPass" readonly="true">
+					                    <p id="errorConfirmPass" style="color: #ff3333"></p>
+					                  </div>
+					                  <div class="form-group">
+					                    <label for="fullname">Fullname</label>
+					                    <input type="text" class="form-control" 
+					                    		id="fullname" readonly="true" 
+					                    		th:field="*{fullname}">
+					                    <input type="hidden" id="hiddenImgUrl" />
+					                    <input type="hidden" id="sendImgUrl"/>
+					                  </div>
+									</div>
+									<div class="col-4">
+										<!-- Profile Image -->
+										<div class="card card-primary card-outline">
+											<div class="card-body box-profile">
+												<div class="text-center">
+													<img class="profile-user-img img-fluid img-circle"
+															style="width: 212px; height: 212px"
+															th:src="@{'/getuserimage/' + ${userRequest.imgUrl == null ? 'default.png' : userRequest.imgUrl}}"
+															alt="User profile picture"
+															id="userImgUpload">
+												</div>
+												<br/>
+												<div class="form-group">
+                    								<label for="inputFile">Avatar</label>
+                   									<div class="input-group">
+                     										<div class="custom-file">
+                       										<input type="file" class="custom-file-input" id="inputFile" name="attach" accept="image/png, image/jpeg">
+                       										<label class="custom-file-label" for="inputFile">Choose file</label>
+                     										</div>
+                     										<div class="input-group-append">
+                       										<span class="input-group-text">Upload</span>
+                     										</div>
+                   									</div>
+                  								</div>
+											</div>
+											<!-- /.card-body -->
+										</div>
+										<!-- /.card -->
+									</div>
+				               </div>
+			                </div>
+			                <!-- /.card-body -->			                
+			                <div class="card-footer">
+			                  <button type="button" id="submitCreate" disabled class="btn btn-primary">Create</button>
+			                  <button type="button" id="submitUpdate" th:attr="onclick='submitFormEdit()'" disabled class="btn btn-success">Update</button>
+			                  <button type="button" class="btn btn-warning">Cancel</button>
+			                </div>
+			              </form>
+			            </div>
+			            <!-- /.card -->
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</section>
+			<!-- /.content -->
+		</div>
+		<!-- /.content-wrapper -->
+
+		<footer class="main-footer">
+			<strong>Copyright &copy; 2014-2021 <a
+				href="https://adminlte.io">AdminLTE.io</a>.
+			</strong> All rights reserved.
+			<div class="float-right d-none d-sm-inline-block">
+				<b>Version</b> 3.1.0
+			</div>
+		</footer>
+
+		<!-- Control Sidebar -->
+		<aside class="control-sidebar control-sidebar-dark">
+			<!-- Control sidebar content goes here -->
+		</aside>
+		<!-- /.control-sidebar -->
+	</div>
+	<!-- ./wrapper -->
+	<div th:if="${session.currentUser != null}">
+    	<input type="hidden" id="hiddenUserRole" th:value="${session.currentUser.role.description == 'admin' ? 'true' : 'false'}">
+    </div>
+
+	<!-- jQuery -->
+	<script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>
+	<!-- Bootstrap 4 -->
+	<script th:src="@{/admin/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<!-- DataTables  & Plugins -->
+	<script th:src="@{/admin/plugins/datatables/jquery.dataTables.min.js}"></script>
+	<script
+		th:src="@{/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js}"></script>
+	<script
+		th:src="@{/admin/plugins/datatables-responsive/js/dataTables.responsive.min.js}"></script>
+	<script
+		th:src="@{/admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js}"></script>
+	<script
+		th:src="@{/admin/plugins/datatables-buttons/js/dataTables.buttons.min.js}"></script>
+	<script
+		th:src="@{/admin/plugins/datatables-buttons/js/buttons.bootstrap4.min.js}"></script>
+	<script th:src="@{/admin/plugins/jszip/jszip.min.js}"></script>
+	<script th:src="@{/admin/plugins/pdfmake/pdfmake.min.js}"></script>
+	<script th:src="@{/admin/plugins/pdfmake/vfs_fonts.js}"></script>
+	<script
+		th:src="@{/admin/plugins/datatables-buttons/js/buttons.html5.min.js}"></script>
+	<script
+		th:src="@{/admin/plugins/datatables-buttons/js/buttons.print.min.js}"></script>
+	<script
+		th:src="@{/admin/plugins/datatables-buttons/js/buttons.colVis.min.js}"></script>
+	<!-- AdminLTE App -->
+	<script th:src="@{/admin/dist/js/adminlte.min.js}"></script>
+	<!-- AdminLTE for demo purposes -->
+	<script th:src="@{/admin/dist/js/demo.js}"></script>
+	<!-- Page specific script -->
+	<script>
+		$(document).on('input', function(){
+			$('#inputFile').change(function() {
+				showImageThumbnail(this)
+			});
+		})
+	
+		$(document).ready(function() {
+			$("#example1").DataTable({
+				"pageLength" : 5,
+				"responsive" : true,
+				"lengthChange" : false,
+				"autoWidth" : false,
+				"buttons" : [ "csv", "excel", "pdf", "print" ]
+			}).buttons().container().appendTo(
+				'#example1_wrapper .col-md-6:eq(0)'
+			);
+		});
+
+		$(document).ready(function() {
+			var errorMessage = $('#errorMessage').text();
+			var succeedMessage = $('#succeedMessage').text();
+			
+			if (errorMessage.length > 0) {
+				$('#thongBao').addClass('alert alert-danger');
+				$('#thongBao').css('display', 'block');
+			}
+			
+			if (succeedMessage.length > 0) {
+				$('#thongBao').addClass('alert alert-success');
+				$('#thongBao').css('display', 'block');
+			}
+			
+			setTimeout(function() {
+				$('#thongBao').css('display', 'none');
+			}, 5000);
+		});
+		
+		$('#createBtn').click(function() {
+			$('html, body').animate({
+				scrollTop: $('#form').offset().top
+			}, 1000);
+			$('#form :input').prop('readonly', false);
+			$('#submitCreate').prop('disabled', false);
+			$('#form').prop('action', '/admin/user/create');
+		});
+		
+		$('#submitCreate').click(function() {
+			var pw = $('#password').val();
+			var cpw = $('#confirmPass').val();
+			if (pw == cpw) {
+				$('#errorConfirmPass').text('');
+				$('#form').submit();
+			} else {
+				$('#errorConfirmPass').text('Confirmation password is not correct');
+			}
+		});
+		
+		function editUser(username) {
+			var url = '/admin/user/edit?username=' + username;
+			$.get(url).done(function(data) {
+				$('#form').replaceWith(data);
+				$('html, body').animate({
+					scrollTop: $('#form').offset().top
+				}, 1000);
+				$('#form :input').prop('readonly', false);
+				$('input#username').prop('readonly', true);
+				$('#submitUpdate').prop('disabled', false);
+				$('#form').prop('action', '/admin/user/edit');
+			});
+		}
+		
+		function showImageThumbnail(fileInput) {
+			file = fileInput.files[0];
+			reader = new FileReader();
+			
+			reader.onload = function(e) {
+				$('#userImgUpload').attr('src', e.target.result);
+			};
+			
+			reader.readAsDataURL(file);
+		}
+		
+		function submitFormEdit() {
+			var pw = $('#password').val();
+			var cpw = $('#confirmPass').val();
+			if (pw == cpw) {
+				$('#errorConfirmPass').text('');
+				$('#form').submit();
+			} else {
+				$('#errorConfirmPass').text('Confirmation password is not correct');
+			}
+		}
+		
+		function loadPage() {
+    		let checkLoginAdmin = $('#hiddenUserRole').val();
+    		if(checkLoginAdmin != 'true') {
+    			window.location.href = '/index';
+    		}
+    	}
+    	window.onload = loadPage;
+	</script>
+</body>
+</html>

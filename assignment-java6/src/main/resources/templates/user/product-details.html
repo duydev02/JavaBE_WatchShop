@@ -1,0 +1,89 @@
+<th:block th:include="user/fragments/header"></th:block>
+
+<main>
+        <!-- Hero Area Start-->
+        <div class="slider-area ">
+            <div class="single-slider slider-height2 d-flex align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="hero-cap text-center">
+                                <h2>Watch Shop</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Hero Area End-->
+        <!--================Single Product Area =================-->
+        <div class="product_image_area" id="product-details_part">
+            <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+					<div class="single_product_img">
+						<img th:src="@{'/user/assets/img/gallery/' + ${product.imgUrl}}" alt="">
+					</div>
+				</div>
+                <div class="col-lg-8">
+                <div class="single_product_text text-center">
+                    <h3 th:text="${product.name}"></h3>
+                    <h4 th:text="${'Price: $' + product.price}"></h4>
+                    <p>
+                        Seamlessly empower fully researched growth strategies and interoperable internal or “organic” sources. Credibly innovate granular internal or “organic” sources whereas high standards in web-readiness. Credibly innovate granular internal or organic sources whereas high standards in web-readiness. Energistically scale future-proof core competencies vis-a-vis impactful experiences. Dramatically synthesize integrated schemas. with optimal networks.
+                    </p>
+                    <div class="card_area">
+                        <div class="product_count_area">
+                            <div class="product_count d-inline-block noselect">
+                                <span class="product_count_item inumber-decrement"> <i class="ti-minus"></i></span>
+                                <input class="product_count_item input-number" id="product-quantity" type="text" value="1" min="0" th:max="${product.quantity > 10 ? 10 : product.quantity}">
+                                <span class="product_count_item number-increment"> <i class="ti-plus"></i></span>
+                            </div>
+                            <p th:text="${product.quantity + ' products are available'}"></p>
+                        </div>
+                    <div class="add_to_cart">
+                        <a th:attr="onclick='addToCart(\'' + ${product.id} + '\')'" class="btn_3">add to cart</a>
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        <!--================End Single Product Area =================-->
+    </main>
+    <input type="hidden" id="hiddenUser" th:value="${session.currentUser != null ? 'true' : 'false'}">
+    
+<script>
+	function addToCart(productId) {
+		var checkLogin = $('#hiddenUser').val();
+		if (checkLogin == 'true') {
+			var quantity = $('#product-quantity').val();
+			var endpoint = '/api/cart/update?productId=' + productId
+					+ '&quantity=' + quantity + '&isReplace=false';
+			$.ajax({
+				url : endpoint,
+				type : 'GET',
+				dataType : 'json',
+				success : function(data) {
+					$('#headerTotalQuantity').text(data.totalQuantity);
+				},
+				error : function(data) {
+					alert('Cannot add product to cart, try again!');
+				}
+			});
+		} else {
+			alert('Please login before shopping');
+			window.location.href = '/login';
+		}
+	}
+	
+	function loadPage() {
+		$('html, body').animate({
+			scrollTop : $("#product-details_part").offset().top + (-300)
+		}, 1000);
+	}
+	window.onload = loadPage;
+</script>    
+
+<th:block th:include="user/fragments/footer"></th:block>

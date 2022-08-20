@@ -1,0 +1,294 @@
+<th:block th:include="user/fragments/header"></th:block>
+
+<main>
+	<!-- Hero Area Start-->
+	<div class="slider-area ">
+		<div class="single-slider slider-height2 d-flex align-items-center">
+			<div class="container">
+				<div class="row">
+					<div class="col-xl-12">
+						<div class="hero-cap text-center">
+							<h2>My Profile</h2>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Hero Area End-->
+	<!--================login_part Area =================-->
+	<section class="login_part section_padding" id="register_part">
+		<div class="container">
+			<ul class="nav nav-tabs" id="myTab" role="tablist">
+				<li class="nav-item" role="presentation">
+					<button class="nav-link active" id="home-tab" data-bs-toggle="tab"
+						data-bs-target="#home" type="button" role="tab" aria-controls="home"
+						aria-selected="true">Profile</button>
+				</li>
+				<li class="nav-item" role="presentation">
+					<button class="nav-link" id="profile-tab" data-bs-toggle="tab"
+						data-bs-target="#profile" type="button" role="tab"
+						aria-controls="profile" aria-selected="false">Security</button>
+				</li>
+				<li class="nav-item" role="presentation">
+					<button class="nav-link" id="contact-tab" data-bs-toggle="tab"
+						data-bs-target="#contact" type="button" role="tab"
+						aria-controls="contact" aria-selected="false">Orders</button>
+				</li>
+			</ul>
+			<div class="tab-content" id="myTabContent">
+				<div class="tab-pane fade show active" id="home" role="tabpanel"
+					aria-labelledby="home-tab">
+					<br class="mt-0 mb-4">
+					<form action="/profile/change" th:object="${userRequest}" method="post" enctype="multipart/form-data">
+					    <div class="row">
+					        <div class="col-xl-4">
+					            <!-- Profile picture card-->
+					            <div class="card mb-4 mb-xl-0">
+					                <div class="card-header">Profile Picture</div>
+					                <div class="card-body text-center">
+					                    <div class="card-body box-profile">
+					                        <div class="text-center">
+					                            <img class="profile-user-img img-fluid img-circle"
+					                                style="width: 212px; height: 212px; border-radius: 50%;"
+					                                th:src="@{'/getuserimage/' + ${userRequest.imgUrl == null ? 'default.png' : userRequest.imgUrl}}"
+					                                alt="User profile picture" id="userImgUpload">
+					                        </div>
+					                        <br />
+					                        <div class="form-group text-start">
+					                            <label for="inputFile" class="fw-bold">Avatar</label>
+					                            <div class="input-group">
+					                                <div class="custom-file">
+					                                    <input type="file" class="custom-file-input" id="inputFile" name="attach"
+					                                        accept="image/png, image/jpeg">
+					                                    <label class="custom-file-label" for="inputFile">Image</label>
+					                                </div>
+					                                <div class="input-group-append">
+					                                    <span class="input-group-text">Upload</span>
+					                                </div>
+					                            </div>
+					                        </div>
+					                    </div>
+					                </div>
+					            </div>
+					        </div>
+					        <div class="col-xl-8">
+					            <!-- Account details card-->
+					            <div class="card mb-4">
+					                <div class="card-header">Account Details</div>
+					                <div class="card-body">
+					                    <!-- Form Group (username)-->
+					                    <div class="mb-3">
+					                        <label class="small mb-1" for="inputUsername">Username (how your name will appear to other users
+					                            on the site)</label>
+					                        <input class="form-control" id="inputUsername" type="text" placeholder="Enter your username"
+					                            value="" th:field="*{username}" readonly="readonly">
+					                    </div>
+					                    <!-- Form Row -->
+					                    <div class="mb-3">
+					                        <label class="small mb-1" for="inputFullname">Full name</label>
+					                        <input class="form-control" id="inputFullname" type="text" placeholder="Enter your fullname"
+					                            value="" th:field="*{fullname}">
+					                    </div>
+					                    <!-- Form Row -->
+					                    <div class="row gx-3 mb-3">
+					                        <!-- Form Group (organization name)-->
+					                        <div class="col-md-6">
+					                            <label class="small mb-1" for="inputOrgName">Organization name</label>
+					                            <input class="form-control" id="inputOrgName" type="text"
+					                                placeholder="Enter your organization name" value="Start Bootstrap">
+					                        </div>
+					                        <!-- Form Group (location)-->
+					                        <div class="col-md-6">
+					                            <label class="small mb-1" for="inputLocation">Location</label>
+					                            <input class="form-control" id="inputLocation" type="text" placeholder="Enter your location"
+					                                value="San Francisco, CA">
+					                        </div>
+					                    </div>
+					                    <!-- Form Group (email address)-->
+					                    <div class="mb-3">
+					                        <label class="small mb-1" for="inputEmailAddress">Email address</label>
+					                        <input class="form-control" id="inputEmailAddress" type="email"
+					                            placeholder="Enter your email address" value="name@example.com">
+					                    </div>
+					                    <!-- Form Row-->
+					                    <div class="row gx-3 mb-3">
+					                        <!-- Form Group (phone number)-->
+					                        <div class="col-md-6">
+					                            <label class="small mb-1" for="inputPhone">Phone number</label>
+					                            <input class="form-control" id="inputPhone" type="tel" placeholder="Enter your phone number"
+					                                value="555-123-4567">
+					                        </div>
+					                        <!-- Form Group (birthday)-->
+					                        <div class="col-md-6">
+					                            <label class="small mb-1" for="inputBirthday">Birthday</label>
+					                            <input class="form-control" id="inputBirthday" type="text" name="birthday"
+					                                placeholder="Enter your birthday" value="06/10/1988">
+					                        </div>
+					                    </div>
+					                    <!-- Save changes button-->
+					                    <button class="btn btn-primary" type="submit">Save changes</button>
+					                </div>
+					            </div>
+					        </div>
+					    </div>
+					</form>
+				</div>
+				<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+					<div class="container-xl px-4 mt-4">
+						<br class="mt-0 mb-4">
+						<div class="row">
+							<div class="col-lg-8">
+								<!-- Change password card-->
+								<div class="card mb-4">
+									<div class="card-header">Change Password</div>
+									<div class="card-body">
+										<form name="myForm" 
+											th:action="${'/profile/change-password/'}" 
+											th:onsubmit="return validateForm()" method="post" th:object="${changePassword}">
+											<!-- Form Group (current password)-->
+											<div class="mb-3">
+												<label class="small mb-1"
+													for="currentPassword">Current
+													Password</label>
+												<input class="form-control"
+													id="currentPassword" name="currentPassword"
+													type="password"
+													placeholder="Enter current password" th:field="*{currentPassword}">
+												<p id="error_currentPassword" style="color: #ff3333"></p>
+											</div>
+											<!-- Form Group (new password)-->
+											<div class="mb-3">
+												<label class="small mb-1"
+													for="newPassword">New
+													Password</label>
+												<input class="form-control"
+													id="newPassword" name="newPassword"
+													type="password"
+													placeholder="Enter new password" th:field="*{newPassword}">
+												<p id="error_newPassword" style="color: #ff3333"></p>													
+											</div>
+											<!-- Form Group (confirm password)-->
+											<div class="mb-3">
+												<label class="small mb-1"
+													for="confirmPassword">Confirm
+													Password</label>
+												<input class="form-control"
+													id="confirmPassword" name="confirmPassword"
+													type="password"
+													placeholder="Confirm new password">
+												<p id="error_confirmPassword" style="color: #ff3333"></p>
+											</div>
+											<button class="btn btn-primary"
+												type="submit">Save</button>
+										</form>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-4">
+								<!-- Delete account card-->
+								<div class="card mb-4">
+									<div class="card-header">Delete Account</div>
+									<div class="card-body">
+										<p>Deleting your account is a permanent
+											action and cannot be undone. If
+											you are sure you want to delete
+											your account, select the button
+											below.</p>
+										<button class="btn btn-danger-soft"
+											style="font-size: 12px"
+											type="button">I understand,
+											delete my account</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+					<table class="table">
+					  <thead>
+					    <tr>
+					      <th scope="col">#</th>
+					      <th scope="col">Address</th>
+					      <th scope="col">Phone</th>
+					      <th scope="col">Created Date</th>
+					      <th scope="col">Total Price</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					    <tr th:each="order, i : ${orders}">
+					      <th scope="row" th:text="${i.index + 1}"></th>
+					      <td th:text="${order.address}"></td>
+					      <td th:text="${order.phone}"></td>
+					      <td th:text="${#dates.format(order.createdDate, 'dd-MMM-yyyy HH:mm:ss')}"></td>
+					      <td th:text="${order.totalPrice}"></td>
+					    </tr>
+					  </tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!--================login_part end =================-->
+	<input type="hidden" id="hiddenUser" th:value="${session.currentUser != null ? 'true' : 'false'}">
+	<input type="hidden" id="succeedMessage" th:value="${succeedMessage}">
+</main>
+
+<script>
+	function showImageThumbnail(fileInput) {
+		file = fileInput.files[0];
+		reader = new FileReader();
+		
+		reader.onload = function(e) {
+			$('#userImgUpload').attr('src', e.target.result);
+		};
+		
+		reader.readAsDataURL(file);
+	}
+
+	function validateForm() {
+		let x = document.forms["myForm"]["currentPassword"].value;
+		let check = true;
+		if (x == "") {
+			$('#error_currentPassword').text('Please enter password');
+			check = false;
+		} else {
+			$('#error_currentPassword').text('');
+		}
+		let y = document.forms["myForm"]["newPassword"].value;
+		if (y == "") {
+			$('#error_newPassword').text('Please enter password');
+			check = false;
+		} else {
+			$('#error_newPassword').text('');
+		}
+		let z = document.forms["myForm"]["confirmPassword"].value;
+		if (z == "") {
+			$('#error_confirmPassword').text('Please enter password');
+			check = false;
+		} else if (y != z) {
+			$('#error_confirmPassword').text('Confirm password is not correct!');
+			check = false;
+		} else {
+			$('#error_confirmPassword').text('');
+		}
+
+		return check;
+	}
+
+	function loadPage() {
+		$('#inputFile').change(function() {
+			showImageThumbnail(this)
+		});
+		let message = $('#succeedMessage').val();
+		if(message != "")
+			alert(message);
+		$('html, body').animate({
+			scrollTop : $("#register_part").offset().top + (-100)
+		}, 1000);
+	}
+	window.onload = loadPage;
+</script>
+
+<th:block th:include="user/fragments/footer"></th:block>
