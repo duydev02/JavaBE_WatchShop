@@ -35,5 +35,5 @@ public interface UsersService {
 	
 	void changePassword(ChangePassword changePassword, String username);
 	
-	void change(Users user, String fullname);
+	void change(Users user, String fullname, String newImage);
 }

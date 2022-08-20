@@ -78,7 +78,7 @@
 									</div>
 								</li>
 								<li id="header-login">
-									<a href="#">
+									<a th:href="@{${session.currentUser} == null ? '/login' : '/profile/' + ${session.currentUser.username}}">
 										<span class="flaticon-user"></span>
 										<span id="header-login-span-2" style="padding-left: 0;" th:if="${session.currentUser != null}" th:text="${session.currentUser.username}"></span>
 									</a>

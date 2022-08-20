@@ -31,7 +31,7 @@ public class MyInterceptor implements HandlerInterceptor {
 			error = "please login!";
 		}
 		// không đúng vai trò
-		else if (!user.getRole().getDescription().equals("admin") && uri.startsWith("/admin/")) {
+		else if (!user.getRole().getDescription().equals("admin") && uri.startsWith("/")) {
 			 error = "access denied!";
 		}
 		if (error.length() > 0) {

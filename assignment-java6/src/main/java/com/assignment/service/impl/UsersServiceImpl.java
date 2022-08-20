@@ -147,8 +147,9 @@ public class UsersServiceImpl implements UsersService {
 	}
 
 	@Override
-	public void change(Users user, String fullname) {
+	public void change(Users user, String fullname, String newImage) {
 		user.setFullname(fullname);
+		user.setImgUrl(newImage);
 		repo.save(user);
 	}
 

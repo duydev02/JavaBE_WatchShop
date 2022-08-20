@@ -140,7 +140,6 @@ public class UserController {
 					Files.copy(inputStream, path.resolve(attach.getOriginalFilename()),
 							StandardCopyOption.REPLACE_EXISTING);
 					userRequest.setImgUrl(attach.getOriginalFilename());
-					System.out.println(attach.getOriginalFilename());
 				}
 				userService.update(userRequest);
 				redirectAttributes.addFlashAttribute("succeedMessage",
