@@ -54,8 +54,8 @@
                 <!-- Sidebar user panel (optional) -->
 				<div class="user-panel mt-3 pb-3 mb-3 d-flex" th:if="${session.currentUser != null}">
                     <div class="image">
-                        <img th:src="@{'/user/assets/img/avatar/' + ${session.currentUser.imgUrl}}" class="img-circle elevation-2"
-                            alt="User Image">
+                        <img th:src="@{'/getuserimage/' + ${session.currentUser.imgUrl == null ? 'default.png' : session.currentUser.imgUrl}}" class="img-circle elevation-2"
+                             alt="User Image">
                     </div>
                     <div class="info">
                         <a href="#" class="d-block" th:text="${session.currentUser.username}"></a>
@@ -96,42 +96,14 @@
                         <li class="nav-item">
                             <a th:href="@{/admin/product}" class="nav-link">
                                 <i class="nav-icon fas fa-chart-pie"></i>
-                                <p>
-                                    Products
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
+								<p>Products</p>
                             </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a th:href="@{/admin/product}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Overview</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="pages/charts/flot.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Create new product</p>
-                                    </a>
-                                </li>
-                            </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a th:href="@{/admin/order}" class="nav-link">
                                 <i class="nav-icon fas fa-tree"></i>
-                                <p>
-                                    Orders
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
+                                <p>Orders</p>
                             </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="pages/UI/general.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Overview</p>
-                                    </a>
-                                </li>
-                            </ul>
                         </li>
                     </ul>
                 </nav>
@@ -256,6 +228,7 @@
                                     <canvas id="canvasChart"
                                         style="min-height: 350px; height: 350px; max-height: 350px; max-width: 100%;"></canvas>
                                 </div>
+                            </div>
                         </section>
                         <!-- right col -->
                     </div>

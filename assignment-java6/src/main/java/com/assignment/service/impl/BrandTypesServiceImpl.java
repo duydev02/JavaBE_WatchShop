@@ -10,7 +10,7 @@ import com.assignment.repository.BrandTypesRepo;
 import com.assignment.service.BrandTypesService;
 
 @Service
-public class BrandTypesImpl implements BrandTypesService {
+public class BrandTypesServiceImpl implements BrandTypesService {
 
 	@Autowired
 	private BrandTypesRepo repo;

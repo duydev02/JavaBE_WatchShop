@@ -2,6 +2,8 @@ package com.assignment.service;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.data.domain.Page;
 
 import com.assignment.entity.Products;
@@ -23,4 +25,6 @@ public interface ProductsService {
 	
 	void updateQuantity(Integer newQuantity, Long productId);
 	void deleteLogical(Long id);
+	void save(Products productRequest, Long productType, Long brandType, Long unitType);
+	void update(@Valid Products productRequest, Long productType, Long brandType, Long unitType);
 }

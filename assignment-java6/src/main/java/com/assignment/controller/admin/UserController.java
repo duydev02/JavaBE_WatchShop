@@ -7,7 +7,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 
-import javax.servlet.ServletContext;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +28,6 @@ import com.assignment.service.UsersService;
 @Controller
 @RequestMapping("/admin/user")
 public class UserController {
-	
-	@Autowired
-	private ServletContext context;
 
 	@Autowired
 	private UsersService userService;
@@ -41,8 +37,6 @@ public class UserController {
 		List<Users> users = userService.findAll();
 		model.addAttribute("users", users);
 		model.addAttribute("userRequest", new Users());
-		String path = context.getRealPath("");
-		System.out.println(path);
 		return "admin/user";
 	}
 
@@ -68,7 +62,7 @@ public class UserController {
 
 	@PostMapping("/create")
 	public String doPostCreateUser(@Valid @ModelAttribute("userRequest") Users userRequest, BindingResult bindingResult,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes, @RequestParam("attach") MultipartFile attach) {
 		if (bindingResult.hasErrors()) {
 			String error = "";
 			outerloop: for (Object object : bindingResult.getAllErrors()) {
@@ -91,6 +85,19 @@ public class UserController {
 			redirectAttributes.addFlashAttribute("errorMessage", "User's " + error + " is not valid");
 		} else {
 			try {
+				if (!attach.isEmpty()) {
+					System.out.println("alo");
+					Path path = Paths.get("images/user-avatar/");
+					
+					if(!Files.exists(path)) {
+						Files.createDirectories(path);
+					}
+					
+					InputStream inputStream = attach.getInputStream();
+					Files.copy(inputStream, path.resolve(attach.getOriginalFilename()),
+							StandardCopyOption.REPLACE_EXISTING);
+					userRequest.setImgUrl(attach.getOriginalFilename());
+				}
 				userService.save(userRequest);
 				redirectAttributes.addFlashAttribute("succeedMessage",
 						"User " + userRequest.getUsername() + " has been created successfully");
@@ -140,6 +147,9 @@ public class UserController {
 					Files.copy(inputStream, path.resolve(attach.getOriginalFilename()),
 							StandardCopyOption.REPLACE_EXISTING);
 					userRequest.setImgUrl(attach.getOriginalFilename());
+				} else {
+					Users checkUser = userService.findByUsername(userRequest.getUsername());
+					userRequest.setImgUrl(checkUser.getImgUrl());
 				}
 				userService.update(userRequest);
 				redirectAttributes.addFlashAttribute("succeedMessage",

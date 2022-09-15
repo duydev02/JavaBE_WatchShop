@@ -40,11 +40,11 @@ public class Users implements Serializable {
 	private Long id;
 
 	@Column(name = "username")
-	@Size(max = 20, message = "Username must be less than 20 characters")
+	@Size(min = 5, max = 20, message = "Username must be greater than 5 and less than 20 characters")
 	private String username;
 
 	@Column(name = "fullname")
-	@Size(max = 50, message = "Fullname must be less than 50 characters")
+	@Size(min = 5, max = 50, message = "Fullname must be greater than 5 and less than 50 characters")
 	private String fullname;
 
 	@Column(name = "hashPassword")

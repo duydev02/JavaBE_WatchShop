@@ -65,4 +65,19 @@ public interface ProductsRepo extends JpaRepository<Products, Long> {
 	@Modifying(clearAutomatically = true)
 	@Query(value = "UPDATE products SET isDeleted = 1 WHERE id = ?", nativeQuery = true)
 	void deleteLogical(Long id);
+	
+	@Modifying(clearAutomatically = true)
+	@Query(value = "INSERT INTO products"
+			+ "([name], typeId, brandId, quantity, price, unitId, imgUrl, [description], slug) VALUES "
+			+ "(?, ?, ?, ?, ?, ?, ?, ?, ?)"
+			, nativeQuery = true)
+	void save(String name, Long productType, Long brandType, Integer quantity, Double price, Long unitType,
+			String imgUrl, String description, String slug);
+	
+	@Modifying(clearAutomatically = true)
+	@Query(value = "UPDATE products SET "
+			+ "[name] = ?, typeId = ?, brandId = ?, quantity = ?, price = ?, unitId = ?, imgUrl = ?, [description] = ?, slug = ? WHERE id = ?"
+			, nativeQuery = true)
+	void update(String name, Long productType, Long brandType, Integer quantity, Double price, Long unitType,
+			String imgUrl, String description, String slug, Long id);
 }

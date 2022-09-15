@@ -51,7 +51,7 @@ public class MyInterceptor implements HandlerInterceptor {
 	@Override
 	public void afterCompletion(HttpServletRequest req, HttpServletResponse resp, Object handler, Exception ex)
 			throws Exception {
-		System.out.println("afterCompletion()->" + req.getRequestURI());
+//		System.out.println("afterCompletion()->" + req.getRequestURI());
 
 	}
 }

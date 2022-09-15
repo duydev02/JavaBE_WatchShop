@@ -1,58 +1,50 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Product</title>
-	
+
 	<!-- Favicon -->
 	<link rel="icon" th:href="@{/admin/dist/img/AdminLTELogo.png}" type="image/x-icon">
-	
+
 	<!-- Google Font: Source Sans Pro -->
 	<link rel="stylesheet"
 		href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 	<!-- Font Awesome -->
-	<link rel="stylesheet"
-		th:href="@{/admin/plugins/fontawesome-free/css/all.min.css}">
+	<link rel="stylesheet" th:href="@{/admin/plugins/fontawesome-free/css/all.min.css}">
 	<!-- Ionicons -->
-	<link rel="stylesheet"
-		href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+	<link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 	<!-- Tempusdominus Bootstrap 4 -->
-	<link rel="stylesheet"
-		th:href="@{/admin/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css}">
+	<link rel="stylesheet" th:href="@{/admin/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css}">
 	<!-- iCheck -->
-	<link rel="stylesheet"
-		th:href="@{/admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css}">
+	<link rel="stylesheet" th:href="@{/admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css}">
 	<!-- JQVMap -->
 	<link rel="stylesheet" th:href="@{/admin/plugins/jqvmap/jqvmap.min.css}">
 	<!-- Theme style -->
 	<link rel="stylesheet" th:href="@{/admin/dist/css/adminlte.min.css}">
 	<!-- overlayScrollbars -->
-	<link rel="stylesheet"
-		th:href="@{/admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">
+	<link rel="stylesheet" th:href="@{/admin/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">
 	<!-- Daterange picker -->
-	<link rel="stylesheet"
-		th:href="@{/admin/plugins/daterangepicker/daterangepicker.css}">
+	<link rel="stylesheet" th:href="@{/admin/plugins/daterangepicker/daterangepicker.css}">
 	<!-- summernote -->
-	<link rel="stylesheet"
-		th:href="@{/admin/plugins/summernote/summernote-bs4.min.css}">
+	<link rel="stylesheet" th:href="@{/admin/plugins/summernote/summernote-bs4.min.css}">
 </head>
+
 <body class="hold-transition sidebar-mini layout-fixed">
 	<div class="wrapper">
 
 		<!-- Preloader -->
-		<div
-			class="preloader flex-column justify-content-center align-items-center">
-			<img class="animation__shake" src="dist/img/AdminLTELogo.png"
-				alt="AdminLTELogo" height="60" width="60">
+		<div class="preloader flex-column justify-content-center align-items-center">
+			<img class="animation__shake" src="dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
 		</div>
 
 		<!-- Main Sidebar Container -->
 		<aside class="main-sidebar sidebar-dark-primary elevation-4">
 			<!-- Brand Logo -->
-			<a th:href="@{/admin}" class="brand-link"> <img
-				th:src="@{/admin/dist/img/AdminLTELogo.png}" alt="AdminLTE Logo"
-				class="brand-image img-circle elevation-3" style="opacity: .8">
+			<a th:href="@{/admin}" class="brand-link"> <img th:src="@{/admin/dist/img/AdminLTELogo.png}"
+					alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
 				<span class="brand-text font-weight-light">AdminLTE 3</span>
 			</a>
 
@@ -60,20 +52,20 @@
 			<div class="sidebar">
 				<!-- Sidebar user panel (optional) -->
 				<div class="user-panel mt-3 pb-3 mb-3 d-flex" th:if="${session.currentUser != null}">
-                    <div class="image">
-                        <img th:src="@{'/user/assets/img/avatar/' + ${session.currentUser.imgUrl}}" class="img-circle elevation-2"
-                            alt="User Image">
-                    </div>
-                    <div class="info">
-                        <a href="#" class="d-block" th:text="${session.currentUser.username}"></a>
-                    </div>
-                </div>
+					<div class="image">
+						<img th:src="@{'/getuserimage/' + ${session.currentUser.imgUrl == null ? 'default.png' : session.currentUser.imgUrl}}"
+							class="img-circle elevation-2" alt="User Image">
+					</div>
+					<div class="info">
+						<a href="#" class="d-block" th:text="${session.currentUser.username}"></a>
+					</div>
+				</div>
 
 				<!-- SidebarSearch Form -->
 				<div class="form-inline">
 					<div class="input-group" data-widget="sidebar-search">
-						<input class="form-control form-control-sidebar" type="search"
-							placeholder="Search" aria-label="Search">
+						<input class="form-control form-control-sidebar" type="search" placeholder="Search"
+							aria-label="Search">
 						<div class="input-group-append">
 							<button class="btn btn-sidebar">
 								<i class="fas fa-search fa-fw"></i>
@@ -84,62 +76,46 @@
 
 				<!-- Sidebar Menu -->
 				<nav class="mt-2">
-					<ul class="nav nav-pills nav-sidebar flex-column"
-						data-widget="treeview" role="menu" data-accordion="false">
+					<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+						data-accordion="false">
 						<!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
 						<li class="nav-item"><a th:href="@{/admin}" class="nav-link">
 								<i class="nav-icon fas fa-th"></i>
 								<p>Home</p>
-						</a></li>
-						<li class="nav-item"><a th:href="@{/admin/user}"
-							class="nav-link"> <i class="nav-icon fas fa-copy"></i>
+							</a></li>
+						<li class="nav-item"><a th:href="@{/admin/user}" class="nav-link"> <i
+									class="nav-icon fas fa-copy"></i>
 								<p>Users</p>
-						</a></li>
-						<li class="nav-item menu-is-opening menu-open"><a href="#" class="nav-link active"> <i
-								class="nav-icon fas fa-chart-pie"></i>
-								<p>
-									Products <i class="right fas fa-angle-left"></i>
-								</p>
-						</a>
-							<ul class="nav nav-treeview">
-								<li class="nav-item"><a th:href="@{/admin/product}"
-									class="nav-link active" style="opacity: .8;"> <i class="far fa-circle nav-icon"></i>
-										<p>Overview</p>
-								</a></li>
-								<li class="nav-item"><a href="pages/charts/flot.html"
-									class="nav-link"> <i class="far fa-circle nav-icon"></i>
-										<p>Create new product</p>
-								</a></li>
-							</ul></li>
-						<li class="nav-item"><a href="#" class="nav-link"> <i
-								class="nav-icon fas fa-tree"></i>
-								<p>
-									Orders <i class="fas fa-angle-left right"></i>
-								</p>
-						</a>
-							<ul class="nav nav-treeview">
-								<li class="nav-item"><a href="pages/UI/general.html"
-									class="nav-link"> <i class="far fa-circle nav-icon"></i>
-										<p>Overview</p>
-								</a></li>
-							</ul></li>
+							</a></li>
+						<li class="nav-item menu-is-opening menu-open">
+							<a th:href="@{/admin/product}" class="nav-link active">
+                                <i class="nav-icon fas fa-chart-pie"></i>
+								<p>Products</p>
+                            </a>
+						</li>
+						<li class="nav-item">
+                            <a th:href="@{/admin/order}" class="nav-link">
+                                <i class="nav-icon fas fa-tree"></i>
+                                <p>Orders</p>
+                            </a>
+                        </li>
 					</ul>
 				</nav>
 				<!-- /.sidebar-menu -->
 			</div>
 			<!-- /.sidebar -->
 		</aside>
-		
+
 		<div id="divThongBao">
-	    	<div id="thongBao" style="display: none;" role="alert" align="center">
+			<div id="thongBao" style="display: none;" role="alert" align="center">
 				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 				<span id="errorMessage" th:text="${errorMessage}"></span>
 				<span id="succeedMessage" th:text="${succeedMessage}"></span>
 			</div>
-	    </div>
+		</div>
 
 		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
@@ -160,7 +136,7 @@
 				</div>
 				<!-- /.container-fluid -->
 			</section>
-			
+
 			<!-- Main content -->
 			<section class="content">
 				<div class="container-fluid">
@@ -168,8 +144,9 @@
 						<div class="col-12">
 							<div class="card">
 								<div class="card-header">
-									<h3 class="card-title">Danh sách sản phẩm</h3>
-									<button style="float: right" id="createBtn" type="button" class="btn btn-success">Create new product</button>
+									<h3 class="card-title" style="font-size: 24px">Danh sách sản phẩm</h3>
+									<button style="float: right" id="createBtn" type="button"
+										class="btn btn-success">Create new product</button>
 								</div>
 								<!-- /.card-header -->
 								<div class="card-body">
@@ -201,18 +178,19 @@
 												<td th:text="${product.price}"></td>
 												<td th:text="${product.unitType.description}"></td>
 												<td>
-													<img th:src="@{'/user/assets/img/gallery/' + ${product.imgUrl == null ? 'default.png' : product.imgUrl}}" class="elevation-2"
-                           								alt="Product Image" style="width: 50px; height: 50px">
+													<img th:src="@{'/user/assets/img/gallery/' + ${product.imgUrl == null ? 'default.png' : product.imgUrl}}"
+														class="elevation-2" alt="Product Image"
+														style="width: 50px; height: 50px">
 												</td>
 												<td th:text="${product.description}"></td>
 												<td th:text="${product.slug}"></td>
 												<td align="center">
-													<button class="btn btn-success" 
+													<button class="btn btn-success"
 														th:attr="onclick='editProduct(\'' + ${product.id} + '\')'">
 														<i class="fa fa-edit" aria-hidden="true"></i>
 													</button>
-													<a class="btn btn-danger" 
-														th:href="@{'/admin/product/delete?id=' + ${product.id}}">
+													<a class="btn btn-danger"
+														th:attr="onclick=|deleteProduct('${product.id}')|">
 														<i class="fa fa-trash" aria-hidden="true"></i>
 													</a>
 												</td>
@@ -227,95 +205,140 @@
 						<!-- /.col -->
 					</div>
 					<!-- /.row -->
-					
-					
+
+
 					<div class="row">
-			          <!-- left column -->
-			          <div class="col-12">
-			            <!-- general form elements -->
-			            <div class="card card-primary">
-			              <div class="card-header">
-			                <h3 class="card-title">Product Details</h3>
-			              </div>
-			              <!-- /.card-header -->
-			              <!-- form start -->
-			              <form id="form" method="POST">
-			                <div class="card-body">
-			                	<div class="row">
-								    <div class="col-8">
-								        <div class="form-group">
-								            <label for="id">Id</label>
-								            <input type="text" class="form-control" id="id" readonly="true">
-								        </div>
-								        <div class="form-group">
-								            <label for="name">Name</label>
-								            <input type="text" class="form-control" id="name" readonly="true">
-								        </div>
-								        <div class="mb-3">
-								            <label for="brand" class="form-label">Brand</label>
-								            <select class="form-control" name="brand" id="brand" disabled>
-								                <option th:each="brandType : ${brandTypes}"
-													th:value="${brandType.slug}" 
-													th:text="${brandType.description}" 
-													th:selected="${brandType.slug} == ${brandTypeSelected}">
-												</option>
-								            </select>
-								        </div>
-								        <div class="form-group">
-								            <label for="quantity">Quantity</label>
-								            <input type="number" class="form-control" id="quantity" readonly="true">
-								        </div>
-								        <div class="form-group">
-								            <label for="price">Price</label>
-								            <input type="number" class="form-control" id="price" readonly="true">
-								        </div>
-								        <div class="form-group">
-								            <label for="description">Description</label>
-								            <input type="text" class="form-control" id="description" readonly="true">
-								        </div>
-								        <div class="form-group">
-								            <label for="slug">Slug</label>
-								            <input type="text" class="form-control" id="slug" readonly="true">
-								        </div>
-								    </div>
-								    <div class="col-4">
-								        <!-- Profile Image -->
-								        <div class="card card-primary card-outline">
-								            <div class="card-body box-profile">
-								                <div class="text-center">
-								                    <img class="profile-user-img img-fluid img-circle" style="width: 212px; height: 212px"
-								                        th:src="@{'/user/assets/img/gallery/' + ${productRequest == null ? 'default.png' : productRequest.imgUrl}}"
-								                        alt="Product picture" id="userImgUpload">
-								                </div>
-								                <br />
-								                <div class="form-group">
-								                    <label for="inputFile">Picture</label>
-								                    <div class="input-group">
-								                        <div class="custom-file">
-								                            <input type="file" class="custom-file-input" id="inputFile">
-								                            <label class="custom-file-label" for="inputFile">Choose file</label>
-								                        </div>
-								                        <div class="input-group-append">
-								                            <span class="input-group-text">Upload</span>
-								                        </div>
-								                    </div>
-								                </div>
-								            </div>
-								            <!-- /.card-body -->
-								        </div>
-								        <!-- /.card -->
-								    </div>
+						<!-- left column -->
+						<div class="col-12">
+							<!-- general form elements -->
+							<div class="card card-primary">
+								<div class="card-header">
+									<h3 class="card-title">Product Details</h3>
 								</div>
-			                </div>
-			                <!-- /.card-body -->			                
-			                <div class="card-footer">
-			                  <button type="button" id="submitCreate" disabled class="btn btn-primary">Create</button>
-			                  <button type="button" id="submitUpdate" th:attr="onclick='submitFormEdit()'" disabled class="btn btn-success">Update</button>
-			                  <button type="button" class="btn btn-warning">Cancel</button>
-			                </div>
-			              </form>
-			            </div>
-			            <!-- /.card -->
+								<!-- /.card-header -->
+								<!-- form start -->
+								<form id="form" method="POST" th:object="${productRequest}"
+									enctype="multipart/form-data">
+									<div class="card-body">
+										<div class="row">
+											<div class="col-8">
+												<div class="form-group">
+													<label for="id">Id</label>
+													<input type="text" class="form-control" id="id" readonly="true"
+														th:field="*{id}">
+												</div>
+												<div class="form-group">
+													<label for="name">Name</label>
+													<input type="text" class="form-control" id="name" readonly="true"
+														th:field="*{name}">
+													<p id="errorName" style="color: #ff3333"></p>
+												</div>
+												<div class="mb-3">
+													<label for="productTypes" class="form-label">Type</label>
+													<select class="form-control" name="productTypes" id="productTypes"
+														disabled>
+														<option value="0">-- Choose product type --</option>
+														<option th:each="productType : ${productTypes}"
+															th:value="${productType.id}"
+															th:text="${productType.description}"
+															th:selected="${productType.id == productTypeSelected}">
+														</option>
+													</select>
+													<p id="errorProductType" style="color: #ff3333"></p>
+												</div>
+												<div class="mb-3">
+													<label for="brandTypes" class="form-label">Brand</label>
+													<select class="form-control" name="brandTypes" id="brandTypes"
+														disabled>
+														<option value="0">-- Choose brand type --</option>
+														<option th:each="brandType : ${brandTypes}"
+															th:value="${brandType.id}"
+															th:text="${brandType.description}"
+															th:selected="${brandType.id == brandTypeSelected}">
+														</option>
+													</select>
+													<p id="errorBrandType" style="color: #ff3333"></p>
+												</div>
+												<div class="form-group">
+													<label for="quantity">Quantity</label>
+													<input type="number" class="form-control" id="quantity"
+														readonly="true" th:field="*{quantity}">
+													<p id="errorQuantity" style="color: #ff3333"></p>
+												</div>
+												<div class="form-group">
+													<label for="price">Price</label>
+													<input type="number" class="form-control" id="price" readonly="true"
+														th:field="*{price}">
+													<p id="errorPrice" style="color: #ff3333"></p>
+												</div>
+												<div class="mb-3">
+													<label for="unitTypes" class="form-label">Unit</label>
+													<select class="form-control" name="unitTypes" id="unitTypes"
+														disabled>
+														<option value="0">-- Choose unit type --</option>
+														<option th:each="unitType : ${unitTypes}"
+															th:value="${unitType.id}" th:text="${unitType.description}"
+															th:selected="${unitType.id == unitTypeSelected}">
+														</option>
+													</select>
+													<p id="errorUnitType" style="color: #ff3333"></p>
+												</div>
+												<div class="form-group">
+													<label for="description">Description</label>
+													<input type="text" class="form-control" id="description"
+														readonly="true" th:field="*{description}">
+												</div>
+												<div class="form-group">
+													<label for="slug">Slug</label>
+													<input type="text" class="form-control" id="slug" readonly="true"
+														th:field="*{slug}">
+													<p id="errorSlug" style="color: #ff3333"></p>
+												</div>
+											</div>
+											<div class="col-4">
+												<!-- Profile Image -->
+												<div class="card card-primary card-outline">
+													<div class="card-body box-profile">
+														<div class="text-center">
+															<img class="profile-user-img img-fluid img-circle"
+																style="width: 212px; height: 212px"
+																th:src="@{'/user/assets/img/gallery/' + ${productRequest.imgUrl == null ? 'default.png' : productRequest.imgUrl}}"
+																alt="Product picture" id="productImgUpload">
+														</div>
+														<br />
+														<div class="form-group">
+															<label for="inputFile">Picture</label>
+															<div class="input-group">
+																<div class="custom-file">
+																	<input type="file" class="custom-file-input"
+																		id="inputFile" name="attach">
+																	<label class="custom-file-label"
+																		for="inputFile">Choose file</label>
+																</div>
+																<div class="input-group-append">
+																	<span class="input-group-text">Upload</span>
+																</div>
+															</div>
+														</div>
+													</div>
+													<!-- /.card-body -->
+												</div>
+												<!-- /.card -->
+											</div>
+										</div>
+									</div>
+									<!-- /.card-body -->
+									<div class="card-footer">
+										<button type="button" id="submitCreate" disabled
+											class="btn btn-primary">Create</button>
+										<button type="button" id="submitUpdate" th:attr="onclick='submitFormEdit()'"
+											disabled class="btn btn-success">Update</button>
+										<button type="button" class="btn btn-warning" th:attr="onclick='cancel()'">Cancel</button>
+									</div>
+								</form>
+							</div>
+							<!-- /.card -->
+						</div>
 					</div>
 				</div>
 				<!-- /.container-fluid -->
@@ -325,8 +348,7 @@
 		<!-- /.content-wrapper -->
 
 		<footer class="main-footer">
-			<strong>Copyright &copy; 2014-2021 <a
-				href="https://adminlte.io">AdminLTE.io</a>.
+			<strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.
 			</strong> All rights reserved.
 			<div class="float-right d-none d-sm-inline-block">
 				<b>Version</b> 3.1.0
@@ -341,8 +363,9 @@
 	</div>
 	<!-- ./wrapper -->
 	<div th:if="${session.currentUser != null}">
-    	<input type="hidden" id="hiddenUserRole" th:value="${session.currentUser.role.description == 'admin' ? 'true' : 'false'}">
-    </div>
+		<input type="hidden" id="hiddenUserRole"
+			th:value="${session.currentUser.role.description == 'admin' ? 'true' : 'false'}">
+	</div>
 
 	<!-- jQuery -->
 	<script th:src="@{/admin/plugins/jquery/jquery.min.js}"></script>
@@ -350,81 +373,279 @@
 	<script th:src="@{/admin/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
 	<!-- DataTables  & Plugins -->
 	<script th:src="@{/admin/plugins/datatables/jquery.dataTables.min.js}"></script>
-	<script
-		th:src="@{/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js}"></script>
-	<script
-		th:src="@{/admin/plugins/datatables-responsive/js/dataTables.responsive.min.js}"></script>
-	<script
-		th:src="@{/admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js}"></script>
-	<script
-		th:src="@{/admin/plugins/datatables-buttons/js/dataTables.buttons.min.js}"></script>
-	<script
-		th:src="@{/admin/plugins/datatables-buttons/js/buttons.bootstrap4.min.js}"></script>
+	<script th:src="@{/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js}"></script>
+	<script th:src="@{/admin/plugins/datatables-responsive/js/dataTables.responsive.min.js}"></script>
+	<script th:src="@{/admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js}"></script>
+	<script th:src="@{/admin/plugins/datatables-buttons/js/dataTables.buttons.min.js}"></script>
+	<script th:src="@{/admin/plugins/datatables-buttons/js/buttons.bootstrap4.min.js}"></script>
 	<script th:src="@{/admin/plugins/jszip/jszip.min.js}"></script>
 	<script th:src="@{/admin/plugins/pdfmake/pdfmake.min.js}"></script>
 	<script th:src="@{/admin/plugins/pdfmake/vfs_fonts.js}"></script>
-	<script
-		th:src="@{/admin/plugins/datatables-buttons/js/buttons.html5.min.js}"></script>
-	<script
-		th:src="@{/admin/plugins/datatables-buttons/js/buttons.print.min.js}"></script>
-	<script
-		th:src="@{/admin/plugins/datatables-buttons/js/buttons.colVis.min.js}"></script>
+	<script th:src="@{/admin/plugins/datatables-buttons/js/buttons.html5.min.js}"></script>
+	<script th:src="@{/admin/plugins/datatables-buttons/js/buttons.print.min.js}"></script>
+	<script th:src="@{/admin/plugins/datatables-buttons/js/buttons.colVis.min.js}"></script>
 	<!-- AdminLTE App -->
 	<script th:src="@{/admin/dist/js/adminlte.min.js}"></script>
 	<!-- AdminLTE for demo purposes -->
 	<script th:src="@{/admin/dist/js/demo.js}"></script>
 	<!-- Page specific script -->
 	<script>
-		$(document).ready(
-				function() {
-					$("#example1").DataTable({
-						"pageLength" : 5,
-						"responsive" : true,
-						"lengthChange" : false,
-						"autoWidth" : false,
-						"buttons" : [ "csv", "excel", "pdf", "print" ]
-					}).buttons().container().appendTo(
-							'#example1_wrapper .col-md-6:eq(0)');
-				});
+		$(document).on('input', function () {
+			$('#inputFile').change(function () {
+				showImageThumbnail(this);
+			});
+		});
 
-		$(document).ready(function() {
+		$(document).ready(
+			function () {
+				$("#example1").DataTable({
+					"pageLength": 5,
+					"responsive": true,
+					"lengthChange": false,
+					"autoWidth": false,
+					"buttons": ["csv", "excel", "pdf", "print"]
+				}).buttons().container().appendTo(
+					'#example1_wrapper .col-md-6:eq(0)');
+			});
+
+		$(document).ready(function () {
 			var errorMessage = $('#errorMessage').text();
 			var succeedMessage = $('#succeedMessage').text();
-			
+
 			if (errorMessage.length > 0) {
 				$('#thongBao').addClass('alert alert-danger');
 				$('#thongBao').css('display', 'block');
 			}
-			
+
 			if (succeedMessage.length > 0) {
 				$('#thongBao').addClass('alert alert-success');
 				$('#thongBao').css('display', 'block');
 			}
-			
-			setTimeout(function() {
+
+			setTimeout(function () {
 				$('#thongBao').css('display', 'none');
 			}, 5000);
 		});
 		
-		$('#createBtn').click(function() {
+		function editProduct(id) {
+			var url = '/admin/product/edit?id=' + id;
+			$.get(url).done(function (data) {
+				$('#form').replaceWith(data);
+				$('html, body').animate({
+					scrollTop: $('#form').offset().top
+				}, 1000);
+				$('#form :input').prop('readonly', false);
+				$('input#id').prop('readonly', true);
+				$("#productTypes, #brandTypes, #unitTypes").prop('disabled', false);
+				$('#submitUpdate').prop('disabled', false);
+				$('#form').prop('action', '/admin/product/edit/' + id);
+			});
+		}
+		
+		function submitFormEdit() {
+			var name = $('#name').val();
+			var productType = $('#productTypes').val();
+			var brandType = $('#brandTypes').val();
+			var quantity = $('#quantity').val();
+			var price = $('#price').val();
+			var unitType = $('#unitTypes').val();
+			var slug = $('#slug').val();
+			var check = true;
+			// >> Check begin
+			// Check name
+			if (name.length == 0) {
+				$('#errorName').text('Name must not be blank');
+				check = false;
+			} else if (name.length < 3 || name.length > 255) {
+				$('#errorName').text('Name must be greater than 3 and less than 255 characters');
+				check = false;
+			} else {
+				$('#errorName').text('');
+			}
+			// Check productType
+			if (productType == 0) {
+				$('#errorProductType').text('Please choose product type');
+				check = false;
+			} else {
+				$('#errorProductType').text('');
+			}
+			// Check brandType
+			if (brandType == 0) {
+				$('#errorBrandType').text('Please choose brand type');
+				check = false;
+			} else {
+				$('#errorBrandType').text('');
+			}
+			// Check quantity
+			if (quantity == null || quantity == "") {
+				$('#errorQuantity').text('Quantity must not be null');
+				check = false;
+			} else if (quantity < 0 || quantity > 10000) {
+				$('#errorQuantity').text('Quantity must be between 0 - 10000');
+				check = false;
+			} else {
+				$('#errorQuantity').text('');
+			}
+			// Check price
+			if (price == null || price == "") {
+				$('#errorPrice').text('Price must not be null');
+				check = false;
+			} else if (price < 0 || price > 10000) {
+				$('#errorPrice').text('Price must be between 0 - 100000');
+				check = false;
+			} else {
+				$('#errorPrice').text('');
+			}
+			// Check unitType
+			if (unitType == 0) {
+				$('#errorUnitType').text('Please choose unit type');
+				check = false;
+			} else {
+				$('#errorUnitType').text('');
+			}
+			// Check slug
+			var slugCheck = /^[a-z0-9-]+$/;
+			if (slug.length == 0) {
+				$('#errorSlug').text('Slug must not be blank');
+				check = false;
+			} else if (slug.length < 3 || slug.length > 255) {
+				$('#errorSlug').text('Slug must be greater than 3 and less than 255 characters');
+				check = false;
+			} else if (!slugCheck.test(slug)) {
+				$('#errorSlug').text('Slug must be lowercase, include the characters a-z 0-9 and -');
+				check = false;
+			} else {
+				$('#errorSlug').text('');
+			}
+			// << Check end
+			// Result
+			if (check) {
+				$('#form').submit();
+			}
+		}
+
+		function showImageThumbnail(fileInput) {
+			file = fileInput.files[0];
+			reader = new FileReader();
+
+			reader.onload = function (e) {
+				$('#productImgUpload').attr('src', e.target.result);
+			};
+
+			reader.readAsDataURL(file);
+		};
+
+		$('#createBtn').click(function () {
 			$('html, body').animate({
 				scrollTop: $('#form').offset().top
 			}, 1000);
 			$('#form :input').prop('readonly', false);
-			$('#brand').prop('disabled', false);
+			$('#id').prop('readonly', true);
+			$("#productTypes, #brandTypes, #unitTypes").prop('disabled', false);
 			$('#submitCreate').prop('disabled', false);
-			$('#form').prop('action', '/admin/user/create');
+			$('#form').prop('action', '/admin/product/create');
+		});
+
+		$('#submitCreate').click(function () {
+			var name = $('#name').val();
+			var productType = $('#productTypes').val();
+			var brandType = $('#brandTypes').val();
+			var quantity = $('#quantity').val();
+			var price = $('#price').val();
+			var unitType = $('#unitTypes').val();
+			var slug = $('#slug').val();
+			var check = true;
+			// >> Check begin
+			// Check name
+			if (name.length == 0) {
+				$('#errorName').text('Name must not be blank');
+				check = false;
+			} else if (name.length < 3 || name.length > 255) {
+				$('#errorName').text('Name must be greater than 3 and less than 255 characters');
+				check = false;
+			} else {
+				$('#errorName').text('');
+			}
+			// Check productType
+			if (productType == 0) {
+				$('#errorProductType').text('Please choose product type');
+				check = false;
+			} else {
+				$('#errorProductType').text('');
+			}
+			// Check brandType
+			if (brandType == 0) {
+				$('#errorBrandType').text('Please choose brand type');
+				check = false;
+			} else {
+				$('#errorBrandType').text('');
+			}
+			// Check quantity
+			if (quantity == null || quantity == "") {
+				$('#errorQuantity').text('Quantity must not be null');
+				check = false;
+			} else if (quantity < 0 || quantity > 10000) {
+				$('#errorQuantity').text('Quantity must be between 0 - 10000');
+				check = false;
+			} else {
+				$('#errorQuantity').text('');
+			}
+			// Check price
+			if (price == null || price == "") {
+				$('#errorPrice').text('Price must not be null');
+				check = false;
+			} else if (price < 0 || price > 10000) {
+				$('#errorPrice').text('Price must be between 0 - 100000');
+				check = false;
+			} else {
+				$('#errorPrice').text('');
+			}
+			// Check unitType
+			if (unitType == 0) {
+				$('#errorUnitType').text('Please choose unit type');
+				check = false;
+			} else {
+				$('#errorUnitType').text('');
+			}
+			// Check slug
+			var slugCheck = /^[a-z0-9-]+$/;
+			if (slug.length == 0) {
+				$('#errorSlug').text('Slug must not be blank');
+				check = false;
+			} else if (slug.length < 3 || slug.length > 255) {
+				$('#errorSlug').text('Slug must be greater than 3 and less than 255 characters');
+				check = false;
+			} else if (!slugCheck.test(slug)) {
+				$('#errorSlug').text('Slug must be lowercase, include the characters a-z 0-9 and -');
+				check = false;
+			} else {
+				$('#errorSlug').text('');
+			}
+			// << Check end
+			// Result
+			if (check) {
+				$('#form').submit();
+			}
 		});
 		
+		function deleteProduct(id) {
+			if (confirm("Bạn có muốn xóa sản phẩm có id: " + id)) {
+				window.location.href = '/admin/product/delete?id=' + id;
+			}
+		}
 		
-		
+		function cancel() {
+			location.reload();
+		}
+
 		function loadPage() {
-    		let checkLoginAdmin = $('#hiddenUserRole').val();
-    		if(checkLoginAdmin != 'true') {
-    			window.location.href = '/index';
-    		}
-    	}
-    	window.onload = loadPage;
+			let checkLoginAdmin = $('#hiddenUserRole').val();
+			if (checkLoginAdmin != 'true') {
+				window.location.href = '/index';
+			};
+		};
+		window.onload = loadPage;
 	</script>
 </body>
+
 </html>

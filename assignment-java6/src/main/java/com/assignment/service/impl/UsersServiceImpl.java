@@ -1,6 +1,5 @@
 package com.assignment.service.impl;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -46,7 +45,7 @@ public class UsersServiceImpl implements UsersService {
 
 	@Override
 	@Transactional(rollbackOn = { Exception.class, Throwable.class })
-	public Users save(Users user) throws SQLException {
+	public Users save(Users user) {
 		String tokenActive = RandomString.make(30);
 		Roles role = roleService.findByDescription("user");
 		user.setRole(role);

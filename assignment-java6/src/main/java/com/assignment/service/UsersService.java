@@ -1,6 +1,5 @@
 package com.assignment.service;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import com.assignment.dto.ChangePassword;
@@ -19,7 +18,7 @@ public interface UsersService {
 
 	Users doLogin(String username, String password);
 
-	Users save(Users user) throws SQLException;
+	Users save(Users user);
 
 	List<Users> findAll();
 

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -88,6 +89,37 @@ public class ProductsServiceImpl implements ProductsService {
 	@Transactional(rollbackOn = { Exception.class, Throwable.class })
 	public void deleteLogical(Long id) {
 		repo.deleteLogical(id);
+	}
+
+	@Override
+	@Transactional(rollbackOn = { Exception.class, Throwable.class })
+	public void save(Products productRequest, Long productType, Long brandType, Long unitType) {
+		String name = productRequest.getName();
+		// productType
+		// brandType
+		Integer quantity = productRequest.getQuantity();
+		Double price = productRequest.getPrice();
+		// unitType
+		String imgUrl = productRequest.getImgUrl();
+		String description = productRequest.getDescription();
+		String slug = productRequest.getSlug();
+		repo.save(name, productType, brandType, quantity, price, unitType, imgUrl, description, slug);
+	}
+
+	@Override
+	@Transactional(rollbackOn = { Exception.class, Throwable.class })
+	public void update(@Valid Products productRequest, Long productType, Long brandType, Long unitType) {
+		String name = productRequest.getName();
+		// productType
+		// brandType
+		Integer quantity = productRequest.getQuantity();
+		Double price = productRequest.getPrice();
+		// unitType
+		String imgUrl = productRequest.getImgUrl();
+		String description = productRequest.getDescription();
+		String slug = productRequest.getSlug();
+		Long id = productRequest.getId();
+		repo.update(name, productType, brandType, quantity, price, unitType, imgUrl, description, slug, id);
 	}
 
 }

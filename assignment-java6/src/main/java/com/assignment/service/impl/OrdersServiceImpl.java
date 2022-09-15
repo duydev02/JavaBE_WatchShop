@@ -25,4 +25,9 @@ public class OrdersServiceImpl implements OrdersService {
 		return repo.findByUserId(userId);
 	}
 
+	@Override
+	public List<Orders> findAll() {
+		return repo.findAll();
+	}
+
 }
