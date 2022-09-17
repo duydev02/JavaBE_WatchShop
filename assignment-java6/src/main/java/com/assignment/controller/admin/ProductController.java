@@ -1,6 +1,7 @@
 package com.assignment.controller.admin;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
@@ -108,20 +109,7 @@ public class ProductController {
 		} else {
 			try {
 				if (!attach.isEmpty()) {
-					URL url = this.getClass().getClassLoader().getResource("static/user/assets/img/gallery");
-					File file = null;
-				    try {
-				        file = new File(url.toURI());
-				    } catch (URISyntaxException e) {
-				        file = new File(url.getPath());
-				    }
-				    String s = System.currentTimeMillis() + attach.getOriginalFilename();
-					String name = Integer.toHexString(s.hashCode()) + s.substring(s.lastIndexOf("."));
-					File savedFile = new File(file, name);
-					attach.transferTo(savedFile);
-					System.out.println(savedFile);
-					System.out.println(attach);
-					productRequest.setImgUrl(name);
+					saveFile(productRequest, attach);
 				}
 				productService.save(productRequest, productType, brandType, unitType);
 				redirectAttributes.addFlashAttribute("succeedMessage",
@@ -134,7 +122,7 @@ public class ProductController {
 		}
 		return "redirect:/admin/product";
 	}
-	
+
 	@PostMapping("/edit/{id}")
 	public String doPostEditProduct(@Valid @ModelAttribute("productRequest") Products productRequest, BindingResult bindingResult,
 			RedirectAttributes redirectAttributes, @RequestParam("productTypes") Long productType,
@@ -147,19 +135,7 @@ public class ProductController {
 			} else {
 				try {
 					if (!attach.isEmpty()) {
-						URL url = this.getClass().getClassLoader().getResource("static/user/assets/img/gallery");
-						File file = null;
-						try {
-							file = new File(url.toURI());
-						} catch (URISyntaxException e) {
-							file = new File(url.getPath());
-						}
-						String s = System.currentTimeMillis() + attach.getOriginalFilename();
-						String name = Integer.toHexString(s.hashCode()) + s.substring(s.lastIndexOf("."));
-						File savedFile = new File(file, name);
-						attach.transferTo(savedFile);
-						System.out.println(savedFile);
-						productRequest.setImgUrl(name);
+						saveFile(productRequest, attach);
 					} else {
 						productRequest.setImgUrl(checkProduct.getImgUrl());
 					}
@@ -177,6 +153,22 @@ public class ProductController {
 					"Cannot found product has id: " + id);
 		}
 		return "redirect:/admin/product";
+	}
+
+	private void saveFile(Products productRequest, MultipartFile attach) throws IOException {
+		URL url = this.getClass().getClassLoader().getResource("static/user/assets/img/gallery");
+		File file = null;
+		try {
+			file = new File(url.toURI());
+		} catch (URISyntaxException e) {
+			file = new File(url.getPath());
+		}
+		String s = System.currentTimeMillis() + attach.getOriginalFilename();
+		String name = Integer.toHexString(s.hashCode()) + s.substring(s.lastIndexOf("."));
+		File savedFile = new File(file, name);
+		attach.transferTo(savedFile);
+		System.out.println(savedFile);
+		productRequest.setImgUrl(name);
 	}
 
 }
