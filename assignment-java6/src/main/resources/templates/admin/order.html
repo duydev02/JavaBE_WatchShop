@@ -164,7 +164,7 @@
 												<td th:text="${order.totalPrice}"></td>
 												<td align="center">
 													<button class="btn btn-success"
-														th:attr="onclick=|orderDetails('${order.id}', '${order.user.username}', '${order.totalPrice}')|">
+														th:attr="onclick=|orderDetails('${order.id}')|">
 														<i class="fa fa-search" aria-hidden="true"></i>
 													</button>
 												</td>
@@ -190,8 +190,12 @@
 									<h3 class="card-title">Order Details</h3>
 								</div>
 								<div class="card-body">
-									<div style="font-size: 20px; color: navy; display: inline-block;" th:text="${'Username: ' + username}"></div>
-									<div class="ml-4" style="font-size: 20px; color: navy; display: inline-block;" th:text="${'Total Price: $' + totalprice}"></div>
+									<div style="font-size: 20px; color: navy; display: inline-block;" th:text="${'Order Id: ' + order.id}"></div>
+									<div class="ml-4" style="font-size: 20px; color: navy; display: inline-block;" th:text="${'Username: ' + order.user.username}"></div>
+									<div class="ml-4" style="font-size: 20px; color: navy; display: inline-block;" th:text="${'Address: ' + order.address}"></div>
+									<div class="ml-4" style="font-size: 20px; color: navy; display: inline-block;" th:text="${'Phone: ' + order.phone}"></div>
+									<div class="ml-4" style="font-size: 20px; color: navy; display: inline-block;" th:text="${'Created date: ' + order.createdDate}"></div>
+									<div class="ml-4" style="font-size: 20px; color: navy; display: inline-block;" th:text="${'Total Price: $' + order.totalPrice}"></div>
 								</div>
 								<!-- /.card-header -->
 								<!-- form start -->
@@ -199,8 +203,8 @@
 										<thead>
 											<tr>
 												<th></th>
-												<th>Id</th>
-												<th>Order Id</th>
+												<th>Order Detail Id</th>
+												<th>Product Id</th>
 												<th>Product Name</th>
 												<th>Price</th>
 												<th>Quantity</th>
@@ -210,7 +214,7 @@
 											<tr th:each="orderDetail, index : ${orderDetails}">
 												<td th:text="${index.index + 1}"></td>
 												<td th:text="${orderDetail.id}"></td>
-												<td th:text="${orderDetail.order.id}"></td>
+												<td th:text="${orderDetail.product.id}"></td>
 												<td th:text="${orderDetail.product.name}"></td>
 												<td th:text="${orderDetail.price}"></td>
 												<td th:text="${orderDetail.quantity}"></td>
@@ -289,8 +293,8 @@
 			);
 		});
 		
-		function orderDetails(id, username, totalprice) {
-			var url = '/admin/order/orderdetails?id=' + id + "&username=" + username + "&totalprice=" + totalprice;
+		function orderDetails(id) {
+			var url = '/admin/order/orderdetails?id=' + id;
 			$.get(url).done(function (data) {
 				$('#table-order-details').replaceWith(data);
 			});

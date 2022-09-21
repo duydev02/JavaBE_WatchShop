@@ -30,4 +30,9 @@ public class OrdersServiceImpl implements OrdersService {
 		return repo.findAll();
 	}
 
+	@Override
+	public Orders findById(Long id) {
+		return repo.findById(id).get();
+	}
+
 }

@@ -199,6 +199,7 @@
 					      <th scope="col">Phone</th>
 					      <th scope="col">Created Date</th>
 					      <th scope="col">Total Price</th>
+					      <th></th>
 					    </tr>
 					  </thead>
 					  <tbody>
@@ -208,9 +209,53 @@
 					      <td th:text="${order.phone}"></td>
 					      <td th:text="${#dates.format(order.createdDate, 'dd-MMM-yyyy HH:mm:ss')}"></td>
 					      <td th:text="${order.totalPrice}"></td>
+					      <td align="center">
+							  <button class="btn btn-success" style="width: 40px; height: 40px; padding: 0"
+								  th:attr="onclick=|orderDetails('${order.id}')|">
+								  <i class="fa fa-search" aria-hidden="true"></i>
+							  </button>
+						  </td>
 					    </tr>
 					  </tbody>
 					</table>
+					
+					<div id="table-order-details" class="row">
+						<!-- left column -->
+						<div class="col-12" th:if="${orderDetails != null}">
+							<!-- general form elements -->
+							<div class="card card-primary">
+								<div class="card-header">
+									<h3 class="card-title">Order Details</h3>
+								</div>
+								<div class="card-body">
+									<div style="font-size: 20px; color: navy; display: inline-block;" th:text="${'Total Price: $' + order.totalPrice}"></div>
+								</div>
+								<!-- /.card-header -->
+								<!-- form start -->
+								<table class="table table-bordered table-striped">
+										<thead>
+											<tr>
+												<th></th>
+												<th>Product Id</th>
+												<th>Product Name</th>
+												<th>Price</th>
+												<th>Quantity</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="orderDetail, index : ${orderDetails}">
+												<td th:text="${index.index + 1}"></td>
+												<td th:text="${orderDetail.product.id}"></td>
+												<td th:text="${orderDetail.product.name}"></td>
+												<td th:text="${orderDetail.price}"></td>
+												<td th:text="${orderDetail.quantity}"></td>
+											</tr>
+										</tbody>
+									</table>
+							</div>
+							<!-- /.card -->
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -260,6 +305,13 @@
 		}
 
 		return check;
+	}
+	
+	function orderDetails(id) {
+		var url = '/profile/order/orderdetails?id=' + id;
+		$.get(url).done(function (data) {
+			$('#table-order-details').replaceWith(data);
+		});
 	}
 
 	function loadPage() {

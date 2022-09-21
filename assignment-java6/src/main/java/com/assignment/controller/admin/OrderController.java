@@ -32,12 +32,11 @@ public class OrderController {
 	}
 	
 	@GetMapping("/orderdetails")
-	public String doGetOrderDetails(@RequestParam("id") Long id, @RequestParam("username") String username,
-			@RequestParam("totalprice") Double totalprice ,Model model) {
+	public String doGetOrderDetails(@RequestParam("id") Long id, Model model) {
 		List<OrderDetails> orderDetails = orderDetailsService.findByOrderId(id);
+		Orders order = orderService.findById(id);
+		model.addAttribute("order", order);
 		model.addAttribute("orderDetails", orderDetails);
-		model.addAttribute("username", username);
-		model.addAttribute("totalprice", totalprice);
 		return "admin/order::#table-order-details";
 	}
 }

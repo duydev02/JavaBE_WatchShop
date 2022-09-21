@@ -19,8 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.assignment.dto.ChangePassword;
+import com.assignment.entity.OrderDetails;
 import com.assignment.entity.Orders;
 import com.assignment.entity.Users;
+import com.assignment.service.OrderDetailsService;
 import com.assignment.service.OrdersService;
 import com.assignment.service.SessionService;
 import com.assignment.service.UsersService;
@@ -36,6 +38,9 @@ public class UserProfileController {
 
 	@Autowired
 	private OrdersService orderService;
+	
+	@Autowired
+	private OrderDetailsService orderDetailsService;
 
 	@GetMapping("/profile/{username}")
 	public String doGetProfile(@PathVariable("username") String username, Model model) {
@@ -54,6 +59,15 @@ public class UserProfileController {
 			return "redirect:/index";
 		}
 		return "user/profile";
+	}
+	
+	@GetMapping("/profile/order/orderdetails")
+	public String doGetOrderDetails(@RequestParam("id") Long id, Model model) {
+		List<OrderDetails> orderDetails = orderDetailsService.findByOrderId(id);
+		Orders order = orderService.findById(id);
+		model.addAttribute("order", order);
+		model.addAttribute("orderDetails", orderDetails);
+		return "admin/order::#table-order-details";
 	}
 
 	@PostMapping("/profile/change-password/{username}")
