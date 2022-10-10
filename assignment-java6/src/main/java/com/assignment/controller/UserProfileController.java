@@ -47,9 +47,7 @@ public class UserProfileController {
 		model.addAttribute("titleMain", "My profile");
 
 		Users user = sessionService.get("currentUser");
-		System.out.println("check: " + user);
 		String currentUsername = user.getUsername();
-		System.out.println("check2: " + currentUsername);
 
 		List<Orders> orders = orderService.findByUserId(user.getId());
 		model.addAttribute("orders", orders);

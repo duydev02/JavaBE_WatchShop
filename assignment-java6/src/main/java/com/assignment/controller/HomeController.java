@@ -20,10 +20,10 @@ import com.assignment.constant.SessionConstant;
 import com.assignment.entity.BrandTypes;
 import com.assignment.entity.Products;
 import com.assignment.entity.Users;
+import com.assignment.service.AuthenticationService;
 import com.assignment.service.BrandTypesService;
 import com.assignment.service.ProductsService;
 import com.assignment.service.SessionService;
-import com.assignment.service.UsersService;
 
 @Controller
 public class HomeController {
@@ -35,14 +35,14 @@ public class HomeController {
 	private ProductsService productService;
 
 	@Autowired
-	private UsersService userService;
-
-	@Autowired
 	private BrandTypesService brandTypeService;
+	
+	@Autowired
+	private AuthenticationService authenticationService;
 
 //	private static final int MAX_SIZE = 3;
 
-	@GetMapping(value = { "/index", "", "/" })
+	@GetMapping(value = { "/index", "/" })
 	public String doGetIndex(Model model) {
 		model.addAttribute("titleMain", "Time zone");
 		return "user/index";
@@ -153,21 +153,18 @@ public class HomeController {
 		return "user/register";
 	}
 
-	@GetMapping("/logout")
-	public String doGetLogout(HttpSession session) {
-		session.removeAttribute(SessionConstant.CURRENT_USER);
-		return "redirect:/index";
-	}
-
 	@PostMapping("/login")
 	public String doPostLogin(@ModelAttribute("userRequest") Users userRequest, HttpSession session) {
-		Users userResponse = userService.doLogin(userRequest.getUsername(), userRequest.getHashPassword());
-		if (userResponse != null) {
+		try {
+			Users userResponse = authenticationService.doLogin(userRequest.getUsername(), userRequest.getHashPassword(), session);
+			if (userResponse == null) {
+				return "redirect:/login";
+			}
 			session.setAttribute(SessionConstant.CURRENT_USER, userResponse);
 			return "redirect:/index";
-		} else {
+		} catch (Exception ex) {
+			ex.printStackTrace();
 			return "redirect:/login";
 		}
 	}
-
 }
