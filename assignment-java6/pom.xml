@@ -88,6 +88,13 @@
             <artifactId>jjwt</artifactId>
             <version>0.9.1</version>
         </dependency>
+        
+        <!-- https://mvnrepository.com/artifact/com.github.ulisesbocchio/jasypt-spring-boot-starter -->
+		<dependency>
+		    <groupId>com.github.ulisesbocchio</groupId>
+		    <artifactId>jasypt-spring-boot-starter</artifactId>
+		    <version>3.0.4</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -103,6 +110,11 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.github.ulisesbocchio</groupId>
+        		<artifactId>jasypt-maven-plugin</artifactId>
+        		<version>3.0.4</version>
 			</plugin>
 		</plugins>
 	</build>
