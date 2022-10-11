@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Component;
 
+import com.assignment.constant.SessionConstant;
 import com.assignment.util.SessionUtil;
 
 @Component

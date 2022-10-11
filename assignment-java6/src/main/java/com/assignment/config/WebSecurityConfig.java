@@ -16,6 +16,8 @@ import org.springframework.security.web.authentication.rememberme.JdbcTokenRepos
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import com.assignment.jwt.JwtAuthenticationFilter;
+import com.assignment.security.oauth.CustomOAuth2UserService;
+import com.assignment.security.oauth.OAuth2LoginSuccessHandler;
 import com.assignment.service.impl.CustomUserServiceImpl;
 
 @Configuration
@@ -35,6 +37,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(customUserService).passwordEncoder(encoderConfig.passwordEncoder());
 	}
+	
+	@Autowired
+	private CustomOAuth2UserService oAuth2UserService;
+	
+	@Autowired
+	private OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -49,6 +57,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		 */
 		http.authorizeRequests().antMatchers("/admin/**").hasAuthority("admin");
 		
+		// OAuth2 - Đăng nhập từ mạng xã hội
+		http.oauth2Login()
+				.loginPage("/login")
+				.userInfoEndpoint().userService(oAuth2UserService)
+				.and()
+				.successHandler(oAuth2LoginSuccessHandler);
+		
 		http.logout(logout -> logout                                                
 	            .logoutUrl("/logout")                                            
 	            .logoutSuccessUrl("/index")
@@ -59,8 +74,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.and().authorizeRequests()
 				.antMatchers("/api/login", "/", "/index", "/login", "/logout", "/register",
 						"/cart", "/shop", "/about", "/blog", "/blog-details", "/contact",
-						"/product-details/**", "/active-account", "/forgot-password", "/reset-password")
-				.permitAll() // Cho phep tat ca truy cap link nay
+						"/product-details/**", "/active-account", "/forgot-password", "/reset-password",
+						"/oauth2/**").permitAll() // Cho phep tat ca truy cap link nay
 				.anyRequest().authenticated(); // Cac link con lai thi phai xac thuc
 		
 		http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

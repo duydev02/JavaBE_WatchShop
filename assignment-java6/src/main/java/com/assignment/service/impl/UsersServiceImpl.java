@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.assignment.dto.ChangePassword;
+import com.assignment.entity.AuthenticationProvider;
 import com.assignment.entity.Roles;
 import com.assignment.entity.Users;
 import com.assignment.repository.UsersRepo;
@@ -150,6 +151,27 @@ public class UsersServiceImpl implements UsersService {
 		user.setFullname(fullname);
 		user.setImgUrl(newImage);
 		repo.save(user);
+	}
+
+	@Override
+	public Users createNewUserAfterOAuthLoginSuccess(String email, String fullname, Integer randomPassword, AuthenticationProvider provider) {
+		Users user = new Users();
+		user.setUsername(email.substring(0, email.indexOf('@')));
+		user.setEmail(email);
+		user.setFullname(fullname);
+		user.setHashPassword(bcrypt.encode(String.valueOf(randomPassword)));
+		user.setIsDeleted(Boolean.FALSE);
+		user.setAuthProvider(provider);
+		
+		return repo.save(user);
+	}
+
+	@Override
+	public Users updateCustomerAfterOAuthLoginSuccess(Users user, String fullname, AuthenticationProvider provider) {
+		user.setFullname(fullname);
+		user.setAuthProvider(provider);
+		
+		return repo.save(user);
 	}
 
 }

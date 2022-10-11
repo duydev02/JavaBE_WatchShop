@@ -3,6 +3,7 @@ package com.assignment.service;
 import java.util.List;
 
 import com.assignment.dto.ChangePassword;
+import com.assignment.entity.AuthenticationProvider;
 import com.assignment.entity.Users;
 import com.assignment.util.UserNotFoundException;
 
@@ -35,4 +36,8 @@ public interface UsersService {
 	void changePassword(ChangePassword changePassword, String username);
 	
 	void change(Users user, String fullname, String newImage);
+
+	Users createNewUserAfterOAuthLoginSuccess(String email, String fullname, Integer randomPassword, AuthenticationProvider provider);
+
+	Users updateCustomerAfterOAuthLoginSuccess(Users user, String fullname, AuthenticationProvider provider);
 }
