@@ -19,7 +19,7 @@
 	<!-- Latest Products Start -->
 	<section class="popular-items latest-padding" id="shop_part">
 		<div class="container">
-			<div class="row product-btn justify-content-between">
+			<div class="d-flex product-btn justify-content-between">
 				<div class="properties__button">
 					<!--Nav Button  -->
 					<nav>
@@ -50,13 +50,13 @@
 					</form>
 				</div>
 			</div>
-			<div class="row mb-40" id="brand-types">
+			<div class="d-flex mb-40" id="brand-types">
 				<!-- Select items -->
 				<div class="brand-types_title">Brand type</div>
 				<div class="select-this">
 					<form action="#">
 						<div class="select-itms">
-							<select name="select" id="select1" th:attr="onchange='updateByTypeProduct(this.value)'">
+							<select name="select" id="select2" th:attr="onchange='updateByTypeProduct(this.value)'">
 								<option value="">All</option>
 								<option th:each="brandType : ${brandTypes}"
 									th:value="${brandType.slug}" 
