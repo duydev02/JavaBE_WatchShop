@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -108,7 +107,7 @@ public class ProductsServiceImpl implements ProductsService {
 
 	@Override
 	@Transactional(rollbackOn = { Exception.class, Throwable.class })
-	public void update(@Valid Products productRequest, Long productType, Long brandType, Long unitType) {
+	public void update(Products productRequest, Long productType, Long brandType, Long unitType) {
 		String name = productRequest.getName();
 		// productType
 		// brandType
