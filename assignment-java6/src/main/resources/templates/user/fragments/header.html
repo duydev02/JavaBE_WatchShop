@@ -87,6 +87,7 @@
 										<span id="header-login-span-2" style="padding-left: 0;" th:if="${session.currentUser != null}" th:text="${session.currentUser.username}"></span>
 									</a>
 									<ul class="submenu">
+										<li><a th:href="@{'/admin/'}" th:if="${session.currentUser != null && session.currentUser.getRole().getId() == 1}">Administrator</a></li>
 										<li><a th:href="@{'/profile/' + ${session.currentUser.username}}" th:if="${session.currentUser != null}">My profile</a></li>
 										<li><a th:href="@{/cart}" th:if="${session.currentUser != null}">My cart</a></li>
 										<li><a th:href="@{/login}" th:if="${session.currentUser == null}">Login</a></li>
