@@ -1,13 +1,10 @@
 package com.assignment.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.util.Optional;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
+import com.assignment.entity.Users;
+import com.assignment.service.UsersService;
+import com.assignment.util.SessionUtil;
+import com.assignment.util.UserNotFoundException;
+import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -17,158 +14,165 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.assignment.entity.Users;
-import com.assignment.service.UsersService;
-import com.assignment.util.SessionUtil;
-import com.assignment.util.UserNotFoundException;
-
-import net.bytebuddy.utility.RandomString;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.util.Optional;
 
 @Controller
 public class PasswordController {
 
-	@Autowired
-	HttpServletRequest request;
+    @Autowired
+    HttpServletRequest request;
 
-	@Autowired
-	private JavaMailSender mailSender;
+    @Autowired
+    private JavaMailSender mailSender;
 
-	@Autowired
-	private UsersService userService;
+    @Autowired
+    private UsersService userService;
 
-	@GetMapping("/forgot-password")
-	public String doGetForgotPassword(Model model) {
-		model.addAttribute("titleMain", "Forgot Password");
-		return "user/forgot-password";
-	}
+    @GetMapping("/forgot-password")
+    public String doGetForgotPassword(Model model) {
+        model.addAttribute("titleMain", "Forgot Password");
+        return "user/forgot-password";
+    }
 
-	@GetMapping("/reset-password")
-	public String doGetResetPassword(@RequestParam("token") Optional<String> token, @RequestParam("change") Optional<String> change,
-			Model model) {
-		model.addAttribute("titleMain", "Reset Password");
-		String o = change.orElse(null);
-		if (o != null) {
-			model.addAttribute("change", "changed");
-			return "user/reset-password";
-		}
-		String y = token.orElse(null);
-		if (y != null) {
-			Users user = userService.findByResetPassword(y);
-			if (user != null) {
-				model.addAttribute("token", y);
-				return "user/reset-password";
-			}
-		}
-		return "redirect:/login";
-	}
-	
-	@GetMapping("/active-account")
-	public String doGetActive(@RequestParam("token") Optional<String> token) throws Exception {
-		String y = token.orElse(null);
-		if (y != null) {
-			Users user = userService.findByActive(y);
-			if (user != null) {
-				userService.updateActive(y);
-				return "redirect:/index";
-			}
-		}
-		return "redirect:/index";
-	}
+    @GetMapping("/reset-password")
+    public String doGetResetPassword(@RequestParam("token") Optional<String> token, @RequestParam("change") Optional<String> change,
+                                     Model model) {
+        model.addAttribute("titleMain", "Reset Password");
+        String o = change.orElse(null);
+        if (o != null) {
+            model.addAttribute("change", "changed");
+            return "user/reset-password";
+        }
+        String y = token.orElse(null);
+        if (y != null) {
+            Users user = userService.findByResetPassword(y);
+            if (user != null) {
+                model.addAttribute("token", y);
+                return "user/reset-password";
+            }
+        }
+        return "redirect:/login";
+    }
 
-	@PostMapping("/forgot-password")
-	public String doPostForgotPassword(@RequestParam("email") String email, Model model) throws Exception {
-		String token = RandomString.make(30);
-		try {
-			userService.updateResetPassword(token, email);
-			String username = userService.findByEmail(email).getUsername();
-			String resetPasswordLink = SessionUtil.getSiteURL(request) + "/reset-password?token=" + token;
-			sendEmailResetPassword(email, username, resetPasswordLink);
-			model.addAttribute("message", "We have sent a reset password link to your email. Please check your email.");
-		} catch (UserNotFoundException e) {
-			model.addAttribute("error", e.getMessage());
-		} catch (UnsupportedEncodingException | MessagingException e) {
-			model.addAttribute("error", "Error while sending email.");
-		}
-		model.addAttribute("titleMain", "Forgot Password");
-		return "user/forgot-password";
-	}
+    @GetMapping("/active-account")
+    public String doGetActive(@RequestParam("token") Optional<String> token,
+                              RedirectAttributes redirectAttributes) throws Exception {
+        String y = token.orElse(null);
+        if (y != null) {
+            Users user = userService.findByActive(y);
+            if (user != null) {
+                userService.updateActive(y);
+                redirectAttributes.addFlashAttribute("succeedMessage", "Active account successfully!");
+                return "redirect:/index";
+            }
+            redirectAttributes.addFlashAttribute("succeedMessage", "Incorrect active account token!");
+        }
+        return "redirect:/index";
+    }
 
-	@PostMapping("/reset-password")
-	public String doPostResetPassword(@RequestParam("token") String token, @RequestParam("password") String password,
-			Model model) {
-		model.addAttribute("titleMain", "Reset Password");
+    @PostMapping("/forgot-password")
+    public String doPostForgotPassword(@RequestParam("email") String email, Model model) throws Exception {
+        String token = RandomString.make(30);
+        try {
+            userService.updateResetPassword(token, email);
+            String username = userService.findByEmail(email).getUsername();
+            String resetPasswordLink = SessionUtil.getSiteURL(request) + "/reset-password?token=" + token;
+            sendEmailResetPassword(email, username, resetPasswordLink);
+            model.addAttribute("message", "We have sent a reset password link to your email. Please check your email.");
+        } catch (UserNotFoundException e) {
+            model.addAttribute("error", e.getMessage());
+        } catch (UnsupportedEncodingException | MessagingException e) {
+            model.addAttribute("error", "Error while sending email.");
+        }
+        model.addAttribute("titleMain", "Forgot Password");
+        return "user/forgot-password";
+    }
 
-		Users user = userService.findByResetPassword(token);
-		if (user == null) {
-			model.addAttribute("titleMain", "Login");
-			return "redirect:/login";
-		} else {
-			userService.updatePassword(user, password);
-			return "redirect:/reset-password?change=changed";
-		}
-	}
+    @PostMapping("/reset-password")
+    public String doPostResetPassword(@RequestParam("token") String token, @RequestParam("password") String password,
+                                      Model model) {
+        model.addAttribute("titleMain", "Reset Password");
 
-	@PostMapping("/register")
-	public String doPostRegister(@ModelAttribute("userRequest") Users userRequest, HttpSession session) {
-		try {
-			Users userResponse = userService.save(userRequest);
-			if (userResponse != null) {
-				String username = userResponse.getUsername();
-				String email = userResponse.getEmail();
-				String activeToken = userResponse.getActive();
-				String activeLink = SessionUtil.getSiteURL(request) + "/active-account?token=" + activeToken;
+        Users user = userService.findByResetPassword(token);
+        if (user == null) {
+            model.addAttribute("titleMain", "Login");
+            return "redirect:/login";
+        } else {
+            userService.updatePassword(user, password);
+            return "redirect:/reset-password?change=changed";
+        }
+    }
+
+    @PostMapping("/register")
+    public String doPostRegister(@ModelAttribute("userRequest") Users userRequest, HttpSession session,
+                                 RedirectAttributes redirectAttributes) {
+        try {
+            Users userResponse = userService.save(userRequest);
+            if (userResponse == null) {
+                redirectAttributes.addFlashAttribute("succeedMessage", "Registration failed!");
+                return "redirect:/login";
+            }
+            String username = userResponse.getUsername();
+            String email = userResponse.getEmail();
+            String activeToken = userResponse.getActive();
+            String activeLink = SessionUtil.getSiteURL(request) + "/active-account?token=" + activeToken;
 //				session.setAttribute(SessionConstant.CURRENT_USER, userResponse);
-				sendEmailRegister(email, username, activeLink);
-				return "redirect:/login";
-			} else {
-				return "redirect:/login";
-			}
-		} catch (Exception e) {
-			return "redirect:/register";
-		}
-	}
+            sendEmailRegister(email, username, activeLink);
+            redirectAttributes.addFlashAttribute("succeedMessage", "Registration successfully!");
+            return "redirect:/login";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("succeedMessage", "Registration failed!");
+            return "redirect:/register";
+        }
+    }
 
-	private void sendEmailResetPassword(String email, String username, String resetPasswordLink)
-			throws UnsupportedEncodingException, MessagingException {
-		MimeMessage message = mailSender.createMimeMessage();
-		MimeMessageHelper helper = new MimeMessageHelper(message);
+    private void sendEmailResetPassword(String email, String username, String resetPasswordLink)
+            throws UnsupportedEncodingException, MessagingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
 
-		helper.setFrom("contact@shop.com", "Shop Support");
-		helper.setTo(email);
+        helper.setFrom("contact@shop.com", "Shop Support");
+        helper.setTo(email);
 
-		String subject = "Here's the link to reset your password";
-		String subTitle = "Reset your password";
-		String subContent = " You have requested a password reset. Please click on the below link to reset your password: ";
-		String subButton = "Reset Now";
+        String subject = "Here's the link to reset your password";
+        String subTitle = "Reset your password";
+        String subContent = " You have requested a password reset. Please click on the below link to reset your password: ";
+        String subButton = "Reset Now";
 
-		String content = contentMail(username, resetPasswordLink, subTitle, subContent, subButton);
-		helper.setSubject(subject);
-		helper.setText(content, true);
-		mailSender.send(message);
-	}
-	
-	private void sendEmailRegister(String email, String username, String activeLink)
-			throws UnsupportedEncodingException, MessagingException {
-		MimeMessage message = mailSender.createMimeMessage();
-		MimeMessageHelper helper = new MimeMessageHelper(message);
+        String content = contentMail(username, resetPasswordLink, subTitle, subContent, subButton);
+        helper.setSubject(subject);
+        helper.setText(content, true);
+        mailSender.send(message);
+    }
 
-		helper.setFrom("contact@shop.com", "Shop Support");
-		helper.setTo(email);
+    private void sendEmailRegister(String email, String username, String activeLink)
+            throws UnsupportedEncodingException, MessagingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
 
-		String subject = "Here's the link to active your account";
-		String subTitle = "Confirm your email";
-		String subContent = " Thank you for registering. Please click on the below link to activate your account: ";
-		String subButton = "Active Now";
+        helper.setFrom("contact@shop.com", "Shop Support");
+        helper.setTo(email);
 
-		String content = contentMail(username, activeLink, subTitle, subContent, subButton);
-		helper.setSubject(subject);
-		helper.setText(content, true);
-		mailSender.send(message);
-	}
-	
-	private String contentMail(String username, String link, String title, String content, String subButton) {
-		return "<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c\">\n" +
+        String subject = "Here's the link to active your account";
+        String subTitle = "Confirm your email";
+        String subContent = " Thank you for registering. Please click on the below link to activate your account: ";
+        String subButton = "Active Now";
+
+        String content = contentMail(username, activeLink, subTitle, subContent, subButton);
+        helper.setSubject(subject);
+        helper.setText(content, true);
+        mailSender.send(message);
+    }
+
+    private String contentMail(String username, String link, String title, String content, String subButton) {
+        return "<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c\">\n" +
                 "\n" +
                 "<span style=\"display:none;font-size:1px;color:#fff;max-height:0\"></span>\n" +
                 "\n" +
@@ -234,5 +238,5 @@ public class PasswordController {
                 "  </tbody></table><div class=\"yj6qo\"></div><div class=\"adL\">\n" +
                 "\n" +
                 "</div></div>";
-	}
+    }
 }

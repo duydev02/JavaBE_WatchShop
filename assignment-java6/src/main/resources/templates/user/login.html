@@ -78,6 +78,7 @@
 	</section>
 	<!--================login_part end =================-->
 	<input type="hidden" id="hiddenUser" th:value="${session.currentUser != null ? 'true' : 'false'}">
+	<input type="hidden" id="succeedMessage" th:value="${succeedMessage}">
 </main>
 
 <script>
@@ -110,6 +111,11 @@
 		$('html, body').animate({
 			scrollTop : $("#login_part").offset().top + (-100)
 		}, 1000);
+
+		// Error message
+		let message = $('#succeedMessage').val();
+		if(message != "")
+			alert(message);
 	}
 	window.onload = loadPage;
 </script>

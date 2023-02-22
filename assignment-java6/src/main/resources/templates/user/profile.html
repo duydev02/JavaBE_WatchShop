@@ -129,7 +129,7 @@
 									<div class="card-header">Change Password</div>
 									<div class="card-body">
 										<form name="myForm" 
-											th:action="${'/profile/change-password/'}" 
+											th:action="${'/profile/change-password/' + session.currentUser.username}"
 											th:onsubmit="return validateForm()" method="post" th:object="${changePassword}">
 											<!-- Form Group (current password)-->
 											<div class="mb-3">

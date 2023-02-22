@@ -2,6 +2,7 @@ package com.assignment.config;
 
 import javax.sql.DataSource;
 
+import com.assignment.exception.CustomAccessDeniedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
@@ -55,7 +57,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		 
 		 	http.authorizeRequests().antMatchers("/admin/**").hasAuthority(RoleConst.ROLE_ADMIN);
 		 */
-		http.authorizeRequests().antMatchers("/admin/**").hasAuthority("admin");
+		http.authorizeRequests().antMatchers("/admin/**").hasAuthority("admin")
+				.and()
+				.exceptionHandling().accessDeniedHandler(accessDeniedHandler());
 		
 		// OAuth2 - Đăng nhập từ mạng xã hội
 		http.oauth2Login()
@@ -101,5 +105,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public AuthenticationManager customAuthenticationManager() throws Exception {
 		return authenticationManager();
+	}
+
+	@Bean
+	public AccessDeniedHandler accessDeniedHandler() {
+		return new CustomAccessDeniedHandler();
 	}
 }

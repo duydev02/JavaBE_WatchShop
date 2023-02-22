@@ -75,6 +75,7 @@
 		</div>
 	</section>
 	<!--================login_part end =================-->
+	<input type="hidden" id="succeedMessage" th:value="${succeedMessage}">
 </main>
 
 <script>
@@ -116,6 +117,11 @@
 		$('html, body').animate({
 			scrollTop : $("#register_part").offset().top + (-100)
 		}, 1000);
+
+		// Error message
+		let message = $('#succeedMessage').val();
+		if(message != "")
+			alert(message);
 	}
 	window.onload = loadPage;
 </script>
